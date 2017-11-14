@@ -98,16 +98,16 @@ function registerFunc() {
     });
     $('table a.delete').on('click', function () {
         var userId = $(this).closest('tr').attr('userId');
-        var html = [];
         var deleteIndex = layer.msg('确定删除该用户信息?', {
             time: 0 //不自动关闭
             , btn: ['确定', '取消']
             , yes: function (index) {
-                var url = getRoot() + '/user/delete';
+                var url = getRoot() + '/user/delete.do';
                 var params = {id: userId};
                 sendAjax(url, params, function (callback) {
                     if (callback) {
                         layer.msg('删除成功!');
+                        $('#searchButton').trigger('click');
                     } else {
                         layer.close(deleteIndex);
                         layer.msg('删除失败!');
@@ -128,10 +128,11 @@ function toSaveUserInfo(userInfo) {
         type: 1,
         shadeClose: false,
         closeBtn: 0,
-        area: ['500px', '400px'],
+        area: ['600px', '450px'],
         btn: ['确定', '取消'],
         content: getUserInfoHtml(userInfo),
         success: function (dom) {
+            // 设置jquery验证器
             var rules = {
                 name: {
                     required: true
@@ -156,6 +157,7 @@ function toSaveUserInfo(userInfo) {
                     if (callback) {
                         if (callback.flag) {
                             layer.close(layerIndex);
+                            layer.msg('操作成功!');
                         } else {
                             layer.msg(callback.msg);
                         }
@@ -218,6 +220,11 @@ function getUserInfoHtml(userInfo) {
     return html.join('');
 }
 
+/**
+ * 初始化店家信息下拉框
+ * @param userInfo
+ * @returns {string}
+ */
 function getShopSelect(userInfo){
     var html = [
         '<select name="shopId" class="dfinput">',
@@ -230,4 +237,5 @@ function getShopSelect(userInfo){
         });
     }
     html.push('</select>');
+    return html.join('');
 }

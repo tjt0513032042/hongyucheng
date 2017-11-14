@@ -65,9 +65,9 @@ public class UserController {
         }
         int excuteResult = 0;
         if (user.getId() == null) {// 修改
-            excuteResult = userService.updateUser(user);
-        } else {// 新增
             excuteResult = userService.addUser(user);
+        } else {// 新增
+            excuteResult = userService.updateUser(user);
         }
         result.setFlag(excuteResult > 0);
         if (!result.getFlag()) {

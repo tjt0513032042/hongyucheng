@@ -59,31 +59,31 @@ public class UserDao {
     }
 
     public int deleteUserById(Integer id) {
-        String sql = "delete user_info where id = ?";
+        String sql = "delete from user_info where id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
     public int add(User user) {
-        String sql = "insert into user_info set (name, role, can_check, phone, shop_id) values (?, ?, ?, ?, ?)";
+        String sql = "insert into user_info (name, role, can_check, phone, shop_id) values (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, user.getName(), user.getRole(), user.getCanCheck(), user.getPhone(), user.getShopId());
     }
 
     public int update(User user) {
         String sql = "update user_info set ";
         if (StringUtils.isNotEmpty(user.getName())) {
-            sql += " name = " + user.getName() + ", ";
+            sql += " name = '" + user.getName() + "', ";
         }
         if (null != user.getRole()) {
             sql += " role = " + user.getRole() + ", ";
         }
         if (StringUtils.isNotEmpty(user.getPhone())) {
-            sql += " phone = " + user.getPhone() + ", ";
+            sql += " phone = '" + user.getPhone() + "', ";
         }
         if (null != user.getShopId()) {
             sql += " shop_id = " + user.getShopId() + ", ";
         }
         if(StringUtils.isNotEmpty(user.getPassword())){
-            sql += " password = " + user.getPassword() + ", ";
+            sql += " password = '" + user.getPassword() + "', ";
         }
         sql += " can_check = ? ";
         sql += " where id = ? ";
