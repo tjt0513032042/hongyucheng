@@ -150,6 +150,7 @@ function toSave(info) {
                         if (callback.flag) {
                             layer.close(layerIndex);
                             layer.msg('操作成功!');
+                            $('#searchButton').trigger('click');
                         } else {
                             layer.msg(callback.msg);
                         }
