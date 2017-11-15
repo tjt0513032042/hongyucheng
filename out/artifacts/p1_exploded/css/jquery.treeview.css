@@ -1,0 +1,104 @@
+#left_main_nr {padding-left:10px}
+.xmgl_tt{width:100%; height:30px; line-height:30px; text-align:center;}
+.xmgl_tt i{color:#069; font-size:18px;}
+.xmgl_tt span{padding-left:10px;}
+.treeview, .treeview ul { padding: 0;margin: 0;list-style: none;}
+.treeview ul {background-color: white;margin-top: 4px;}
+.treeview .hitarea {
+	background: url(../images/jian.png) 0 center no-repeat;
+	height: 25px;
+	width: 16px;
+	margin-left: -16px;
+	float: left;
+	cursor: pointer;
+}
+/* fix for IE6 */
+* html .hitarea {
+	display: inline;
+	float:none;
+}
+
+.treeview li { 
+	margin: 0;
+	padding: 3px 0pt 3px 16px;
+}
+
+.treeview a.selected {
+	background-color: #eee;
+}
+
+#treecontrol { margin: 1em 0; display: none; }
+
+.treeview .hover { color: red; cursor: pointer; }
+
+.treeview li { background: url(../images/treeview-default-line.gif) 0 0 no-repeat; }
+.treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px; }
+
+.treeview .expandable-hitarea {background: url(../images/jia.png) 0 center no-repeat;}
+
+.treeview li.last { background-position: 0 -1766px }
+.treeview li.lastCollapsable, .treeview li.lastExpandable { background-image: url(../images/treeview-default.gif); }  
+.treeview li.lastCollapsable { background-position: 0 -111px }
+.treeview li.lastExpandable { background-position: -32px -67px }
+
+.treeview div.lastCollapsable-hitarea, .treeview div.lastExpandable-hitarea { background-position: 0; }
+
+.treeview-red li { background-image: url(../images/treeview-red-line.gif); }
+.treeview-red .hitarea, .treeview-red li.lastCollapsable, .treeview-red li.lastExpandable { background-image: url(../images/treeview-red.gif); } 
+
+.treeview-black li { background-image: url(../images/treeview-black-line.gif); }
+.treeview-black .hitarea, .treeview-black li.lastCollapsable, .treeview-black li.lastExpandable { background-image: url(../images/treeview-black.gif); }  
+
+.treeview-gray li { background-image: url(../images/treeview-gray-line.gif); }
+.treeview-gray .hitarea, .treeview-gray li.lastCollapsable, .treeview-gray li.lastExpandable { background-image: url(../images/treeview-gray.gif); } 
+
+.treeview-famfamfam li { background-image: url(../images/treeview-famfamfam-line.gif); }
+.treeview-famfamfam .hitarea, .treeview-famfamfam li.lastCollapsable, .treeview-famfamfam li.lastExpandable { background-image: url(../images/treeview-famfamfam.gif); } 
+
+.treeview .placeholder {
+	background: url(../images/ajax-loader.gif) 0 0 no-repeat;
+	height: 16px;
+	width: 16px;
+	display: block;
+}
+
+.filetree li { padding: 3px 0 2px 16px; }
+.filetree span.folder, .filetree span.file { padding: 1px 0 1px 25px; display: block; font-size:14px; line-height:24px;}
+.filetree span.folder { background: url(../images/folder.gif) 0 center no-repeat; }
+.filetree li.expandable span.folder { background: url(../images/folder-closed.gif) 0 center no-repeat; }
+.filetree span.file { background: url(../images/file.gif) 0 center no-repeat; }
+/* 本例子css */
+	.www360buy{ width:295px;}
+	.www360buy .hd{width:80px; overflow:hidden; background:#127fd1; float:left; }
+	.www360buy .hd li{ position:relative; text-align:center; width:80px; font-size:14px;  cursor:pointer; padding: 10px 0;}
+	.www360buy .hd li.on{ width:80px; background:url(../images/left_nav_bg.jpg) repeat-y;  color:#007eed;  }
+	.www360buy .bd{ width:210px;   float:left;  }
+	.www360buy .lh{ overflow:hidden;  width:210px; margin:0; padding:0;}
+	.www360buy .lh li{ width:156px; padding:0 10px; float:left;    }
+	.www360buy .lh li .p-img{ width:130px; height:132px; padding:30px 13px 0 13px; margin:0 auto; text-align:center;   }
+	.www360buy .lh li .p-name{ height:36px; line-height:18px;  word-break:break-all; word-wrap: break-word; overflow:hidden;   }
+	.www360buy .lh li .p-price{ color:#999;  }
+	.www360buy .lh li .p-price strong{ color:#c00; font-size:14px; font-family: verdana; }
+
+	/* 本例子css */
+		.picScroll-top{ margin:0 auto;  width:80px; height:530px;  position:relative;  z-index:100; background:#127fd1;}
+		.picScroll-top .hd2{ overflow:hidden;  height:50px;  padding:0 10px;  }
+		.picScroll-top .hd2 .prev{ display:block;  width:60px; height:50px;  overflow:hidden;
+cursor:pointer; background:url(../images/left_top.png) no-repeat center;}
+		.picScroll-top .hd2 .next{ display:block; width:60px; height:50px; float:right; cursor:pointer; background:url(../images/left_btn.png) no-repeat center; position:absolute; bottom:0px;}
+		.picScroll-top .hd2 .prevStop{ background-position:-60px -100px;  }
+		.picScroll-top .hd2 .nextStop{ background-position:-60px -140px;  }
+		.picScroll-top .hd2 ul{ float:right; overflow:hidden; zoom:1; margin-top:10px; zoom:1; }
+		.picScroll-top .hd2 ul li{ float:left;  width:9px; height:9px; overflow:hidden; margin-right:5px; text-indent:-999px; cursor:pointer; background:url(../images/icoCircle.gif) 0 -9px no-repeat; }
+		.picScroll-top .hd2 ul li.on{ background-position:0 0; }
+		.picScroll-top .bd2{ padding:0px;   }
+		.picScroll-top .bd2 ul{ overflow:hidden; zoom:1; }
+		.picScroll-top .bd2 ul li{ text-align:center; zoom:1; color:#fff; padding:10px 0;}
+		
+		.picScroll-top .bd2 ul li a{color:#fff; text-decoration:none;}
+		.picScroll-top .bd2 ul li i{font-size:32px;}
+		.picScroll-top .bd2 ul li a:active {color: #0000ff;}
+		.picScroll-top .bd2 ul li .title{ line-height:24px; }
+		.picScroll-top .bd2 ul li .title a{color:#fff; text-decoration:none; font-size:12px;}
+        .picScroll-top .bd2 ul li .title a:active{color:#006;}
+	
