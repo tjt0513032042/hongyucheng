@@ -63,6 +63,11 @@ public class UserController {
             result.setMsg("用户信息错误,无法保存!");
             return result;
         }
+        if (userService.checkPhoneExist(user.getPhone())) {
+            result.setFlag(false);
+            result.setMsg("该手机已注册,无法重复注册!");
+            return result;
+        }
         int excuteResult = 0;
         if (user.getId() == null) {// 修改
             excuteResult = userService.addUser(user);

@@ -89,4 +89,13 @@ public class UserDao {
         sql += " where id = ? ";
         return jdbcTemplate.update(sql, user.getCanCheck(), user.getId());
     }
+
+    public boolean checkPhoneExist(String phone) {
+        String sql = "select * from user_info where phone = ?";
+        List<User> list = jdbcTemplate.query(sql, User.getDefaultRowHander(), phone);
+        if (org.apache.commons.collections.CollectionUtils.isNotEmpty(list)) {
+            return true;
+        }
+        return false;
+    }
 }

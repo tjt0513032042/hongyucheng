@@ -39,7 +39,7 @@ public class ShopInfo implements Serializable{
         this.shopName = shopName;
     }
 
-    public static RowMapper<ShopInfo> getDefaultRowMapper(){
+    public static RowMapper<ShopInfo> getDefaultRowHander(){
         return new RowMapper<ShopInfo>() {
             @Override
             public ShopInfo mapRow(ResultSet resultSet, int i) throws SQLException {

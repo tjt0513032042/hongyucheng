@@ -44,4 +44,8 @@ public class UserService {
     public int updateUser(User user) {
         return userDao.update(user);
     }
+
+    public boolean checkPhoneExist(String phone){
+        return userDao.checkPhoneExist(phone);
+    }
 }

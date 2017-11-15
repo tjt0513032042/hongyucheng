@@ -46,7 +46,7 @@
         </div>
         <ul class="menuson">
             <li><cite></cite><a href="<%=basePath%>/user/list.do" target="rightFrame">人员管理</a><i></i></li>
-            <li><cite></cite><a href="right.html" target="rightFrame">店家管理</a><i></i></li>
+            <li><cite></cite><a href="<%=basePath%>/shop/list.do" target="rightFrame">店家管理</a><i></i></li>
         </ul>
     </dd>
 

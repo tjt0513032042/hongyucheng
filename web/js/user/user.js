@@ -29,7 +29,12 @@ function searchList(name, phone, pageNo, pageSize) {
             var htmlContent = [];
             if (datas && datas.length > 0) {
                 $.each(datas, function (i, data) {
-                    htmlContent.push('<tr class="contentDatas" userId="' + data.id + '">');
+                    console.log(i);
+                    if(i > 0 && i % 2 == 1){
+                        htmlContent.push('<tr class="contentDatas odd" userId="' + data.id + '">');
+                    }else{
+                        htmlContent.push('<tr class="contentDatas" userId="' + data.id + '">');
+                    }
                     htmlContent.push('<td>');
                     htmlContent.push(data.name);
                     htmlContent.push('</td>');
