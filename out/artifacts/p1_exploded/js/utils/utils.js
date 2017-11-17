@@ -27,8 +27,8 @@ function sendAjax(url, params, callbackfunction, async) {
 
         }
     }
-    if (!async) {
-        async = false;
+    if (async == undefined) {
+        async = true
     }
     $.ajax({
         url: url,
@@ -70,4 +70,16 @@ function getShops() {
         }
     }, false);
     return shops;
+}
+
+function getDevices(){
+    var url = getRoot() + '/devices/getAllDevices.do';
+    var params = {};
+    var infos = null;
+    sendAjax(url, params, function (callback) {
+        if (callback) {
+            infos = callback;
+        }
+    }, false);
+    return infos;
 }

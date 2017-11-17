@@ -40,10 +40,33 @@ function searchList(name, pageNo, pageSize) {
                     if (data.shopType == 0) {
                         htmlContent.push('餐饮');
                     } else if (data.shopType == 1) {
-                        htmlContent.push('其他');
+                        htmlContent.push('零售');
+                    } else if (data.shopType == 2) {
+                        htmlContent.push('服务');
+                    } else if (data.shopType == 3) {
+                        htmlContent.push('娱乐');
                     } else {
                         htmlContent.push('未知');
                     }
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
+                    htmlContent.push(data.firstPersonName);
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
+                    htmlContent.push(data.secondPersonName);
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
+                    htmlContent.push(data.closeShopBox);
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
+                    if (data.hasSpareKey) {
+                        htmlContent.push("是");
+                    } else {
+                        htmlContent.push("否");
+                    }
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
+                    htmlContent.push(data.spareKeyBox);
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
                     htmlContent.push('<a href="#" class="tablelink modify">修改</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink delete">删除</a>');
@@ -126,7 +149,7 @@ function toSave(info) {
         type: 1,
         shadeClose: false,
         closeBtn: 0,
-        area: ['600px', '250px'],
+        area: ['600px', '700px'],
         btn: ['确定', '取消'],
         content: getInfoHtml(info),
         success: function (dom) {
@@ -178,8 +201,22 @@ function getInfoHtml(info) {
             '<li><label>商家类型</label>',
             '<select name="shopType" class="dfinput">',
             '<option value="0" ' + (info.shopType == 0 ? 'selected' : '') + '>餐饮</option>',
-            '<option value="1" ' + (info.shopType == 1 ? 'selected' : '') + '>其他</option>',
+            '<option value="1" ' + (info.shopType == 1 ? 'selected' : '') + '>零售</option>',
+            '<option value="2" ' + (info.shopType == 2 ? 'selected' : '') + '>服务</option>',
+            '<option value="3" ' + (info.shopType == 3 ? 'selected' : '') + '>娱乐</option>',
+            '<option value="4" ' + (info.shopType == 4 ? 'selected' : '') + '>其他</option>',
             '</select></li>',
+            '<li><label>第一责任人</label><input name="firstPersonName" type="text" class="dfinput" value="' + info.firstPersonName + '" maxlength="20"></li>',
+            '<li><label>责任人职务</label><input name="firstPersonPost" type="text" class="dfinput" value="' + info.firstPersonPost + '" maxlength="11"></li>',
+            '<li><label>责任人号码</label><input name="firstPersonPhone" type="text" class="dfinput" value="' + info.firstPersonPhone + '" maxlength="11"></li>',
+            '<li><label>第二责任人</label><input name="secondPersonName" type="text" class="dfinput" value="' + info.secondPersonName + '" maxlength="20"></li>',
+            '<li><label>责任人职务</label><input name="secondPersonPost" type="text" class="dfinput" value="' + info.secondPersonPost + '" maxlength="11"></li>',
+            '<li><label>责任人号码</label><input name="secondPersonPhone" type="text" class="dfinput" value="' + info.secondPersonPhone + '" maxlength="11"></li>',
+            '<li><label>闭店表箱号</label><input name="closeShopBox" type="text" class="dfinput" value="' + info.closeShopBox + '" maxlength="50"></li>',
+            '<li><label>是否有备用钥匙</label><input name="hasSpareKey" type="checkbox" style="width: 30px !important;" class="dfinput" ' + (info.hasSpareKey ? 'checked': '') + ' maxlength="50"></li>',
+            '<li><label>备用钥匙箱号</label><input name="spareKeyBox" type="text" class="dfinput" value="' + info.spareKeyBox + '" maxlength="50"></li>',
+            '<li><label>闭店运行设备</label><input name="runningDevices" type="text" class="dfinput" value="' + info.spareKeyBox + '" maxlength="50"></li>',
+            // TODO 运行设备的选择做成弹出框形式，直接在外层选择  或者做成checkbox
             '</ul>',
             '</div>',
             '</form>'
@@ -194,7 +231,10 @@ function getInfoHtml(info) {
             '<li><label>商家类型</label>',
             '<select name="shopType" class="dfinput">',
             '<option value="0">餐饮</option>',
-            '<option value="1">其他</option>',
+            '<option value="1">零售</option>',
+            '<option value="2">服务</option>',
+            '<option value="3">娱乐</option>',
+            '<option value="4">其他</option>',
             '</select></li>',
             '</ul>',
             '</div>',

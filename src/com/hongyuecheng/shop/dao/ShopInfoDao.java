@@ -20,6 +20,8 @@ public class ShopInfoDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private DeviceDao deviceDao;
 
     public List<ShopInfo> getAllshops() {
         String sql = "select * from shop_info";
@@ -30,7 +32,9 @@ public class ShopInfoDao {
         String sql = "select * from shop_info where shop_id = ?";
         List<ShopInfo> list = jdbcTemplate.query(sql, new Object[]{shopId}, ShopInfo.getDefaultRowHander());
         if (!CollectionUtils.isEmpty(list)) {
-            return list.get(0);
+            ShopInfo shopInfo = list.get(0);
+            shopInfo.setDeviceInfoList(deviceDao.getDevicesByIds(shopInfo.getRunningDevices()));
+            return shopInfo;
         }
         return null;
     }

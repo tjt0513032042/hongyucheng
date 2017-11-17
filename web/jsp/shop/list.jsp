@@ -32,6 +32,11 @@
             <thead>
                 <th>商家名称</th>
                 <th>商家类型</th>
+                <th>第一责任人</th>
+                <th>第二责任人</th>
+                <th>闭店表箱号</th>
+                <th>备用钥匙</th>
+                <th>备用钥匙箱号</th>
                 <th>操作</th>
             </thead>
         </table>

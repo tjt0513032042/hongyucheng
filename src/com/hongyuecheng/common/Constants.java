@@ -23,8 +23,20 @@ public class Constants {
      */
     public static final Integer SHOP_TYPE_FOOD = 0;
     /**
+     * 店铺类型:零售
+     */
+    public static final Integer SHOP_TYPE_SELL = 1;
+    /**
+     * 店铺类型:服务
+     */
+    public static final Integer SHOP_TYPE_SERVICE = 2;
+    /**
+     * 店铺类型:娱乐
+     */
+    public static final Integer SHOP_TYPE_FUN = 3;
+    /**
      * 店铺类型:其他
      */
-    public static final Integer SHOP_TYPE_OTHER = 1;
+    public static final Integer SHOP_TYPE_OTHER = 4;
 }
 
