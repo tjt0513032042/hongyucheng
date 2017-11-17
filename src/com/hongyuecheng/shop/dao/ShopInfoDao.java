@@ -40,13 +40,18 @@ public class ShopInfoDao {
     }
 
     public int add(ShopInfo shopInfo) {
-        String sql = "insert into shop_info (shop_name, shop_type) values (?, ?)";
-        return jdbcTemplate.update(sql, shopInfo.getShopName(), shopInfo.getShopType());
+        String sql = "insert into shop_info (shop_name, shop_type, first_person_name, first_person_post, first_person_phone, second_person_name, second_person_post, second_person_phone," +
+                "close_shop_box, has_spare_key, spare_key_box, running_devices) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, shopInfo.getShopName(), shopInfo.getShopType(), shopInfo.getFirstPersonName(), shopInfo.getFirstPersonPost(), shopInfo.getFirstPersonPhone(),
+                shopInfo.getSecondPersonName(), shopInfo.getSecondPersonPost(), shopInfo.getSecondPersonPhone(), shopInfo.getCloseShopBox(), shopInfo.isHasSpareKey(), shopInfo.getSpareKeyBox(), shopInfo.getRunningDevices());
     }
 
     public int update(ShopInfo shopInfo) {
-        String sql = "update shop_info set shop_name = ?, shop_type = ? where shop_id = ?";
-        return jdbcTemplate.update(sql, shopInfo.getShopName(), shopInfo.getShopType(), shopInfo.getShopId());
+        String sql = "update shop_info set shop_name = ?, shop_type = ?, first_person_name = ?, first_person_post = ?, first_person_phone = ?," +
+                " second_person_name = ?, second_person_post = ?, second_person_phone = ?, close_shop_box = ?, has_spare_key = ?, spare_key_box = ?, running_devices = ?  where shop_id = ?";
+        return jdbcTemplate.update(sql, shopInfo.getShopName(), shopInfo.getShopType(), shopInfo.getFirstPersonName(), shopInfo.getFirstPersonPost(), shopInfo.getFirstPersonPhone(),
+                shopInfo.getSecondPersonName(), shopInfo.getSecondPersonPost(), shopInfo.getSecondPersonPhone(), shopInfo.getCloseShopBox(), shopInfo.isHasSpareKey(), shopInfo.getSpareKeyBox(),
+                shopInfo.getRunningDevices(), shopInfo.getShopId());
     }
 
     public int delete(Integer shopId) {

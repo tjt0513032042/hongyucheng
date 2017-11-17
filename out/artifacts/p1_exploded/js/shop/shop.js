@@ -163,6 +163,10 @@ function toSave(info) {
                 rules: rules,
                 onfocusout: false
             });
+
+            $(dom).find('input[name=runningDevicesName]').on('click', function () {
+                chooseDevices($(dom).find('input[name=runningDevicesName]'), $(dom).find('input[name=runningDevices]'));
+            });
         },
         btn1: function (index, dom) {
             if ($(dom).find('form').valid()) {
@@ -191,6 +195,13 @@ function toSave(info) {
 function getInfoHtml(info) {
     var html = [];
     if (info && null != info) {
+        var deviceNames = '';
+        if (info.deviceInfoList && info.deviceInfoList.length > 0) {
+            $.each(info.deviceInfoList, function (i, deviceInfo) {
+                deviceNames += deviceInfo.deviceName + ',';
+            });
+            deviceNames = deviceNames.substr(0, deviceNames.length - 1);
+        }
         html = [
             '<form>',
             '<input type="hidden" name="shopId" value="' + info.shopId + '">',
@@ -206,17 +217,16 @@ function getInfoHtml(info) {
             '<option value="3" ' + (info.shopType == 3 ? 'selected' : '') + '>娱乐</option>',
             '<option value="4" ' + (info.shopType == 4 ? 'selected' : '') + '>其他</option>',
             '</select></li>',
-            '<li><label>第一责任人</label><input name="firstPersonName" type="text" class="dfinput" value="' + info.firstPersonName + '" maxlength="20"></li>',
-            '<li><label>责任人职务</label><input name="firstPersonPost" type="text" class="dfinput" value="' + info.firstPersonPost + '" maxlength="11"></li>',
-            '<li><label>责任人号码</label><input name="firstPersonPhone" type="text" class="dfinput" value="' + info.firstPersonPhone + '" maxlength="11"></li>',
-            '<li><label>第二责任人</label><input name="secondPersonName" type="text" class="dfinput" value="' + info.secondPersonName + '" maxlength="20"></li>',
-            '<li><label>责任人职务</label><input name="secondPersonPost" type="text" class="dfinput" value="' + info.secondPersonPost + '" maxlength="11"></li>',
-            '<li><label>责任人号码</label><input name="secondPersonPhone" type="text" class="dfinput" value="' + info.secondPersonPhone + '" maxlength="11"></li>',
-            '<li><label>闭店表箱号</label><input name="closeShopBox" type="text" class="dfinput" value="' + info.closeShopBox + '" maxlength="50"></li>',
-            '<li><label>是否有备用钥匙</label><input name="hasSpareKey" type="checkbox" style="width: 30px !important;" class="dfinput" ' + (info.hasSpareKey ? 'checked': '') + ' maxlength="50"></li>',
-            '<li><label>备用钥匙箱号</label><input name="spareKeyBox" type="text" class="dfinput" value="' + info.spareKeyBox + '" maxlength="50"></li>',
-            '<li><label>闭店运行设备</label><input name="runningDevices" type="text" class="dfinput" value="' + info.spareKeyBox + '" maxlength="50"></li>',
-            // TODO 运行设备的选择做成弹出框形式，直接在外层选择  或者做成checkbox
+            '<li><label>第一责任人</label><input name="firstPersonName" type="text" class="dfinput" value="' + nullToString(info.firstPersonName) + '" maxlength="20"></li>',
+            '<li><label>责任人职务</label><input name="firstPersonPost" type="text" class="dfinput" value="' + nullToString(info.firstPersonPost) + '" maxlength="11"></li>',
+            '<li><label>责任人号码</label><input name="firstPersonPhone" type="text" class="dfinput" value="' + nullToString(info.firstPersonPhone) + '" maxlength="11"></li>',
+            '<li><label>第二责任人</label><input name="secondPersonName" type="text" class="dfinput" value="' + nullToString(info.secondPersonName) + '" maxlength="20"></li>',
+            '<li><label>责任人职务</label><input name="secondPersonPost" type="text" class="dfinput" value="' + nullToString(info.secondPersonPost) + '" maxlength="11"></li>',
+            '<li><label>责任人号码</label><input name="secondPersonPhone" type="text" class="dfinput" value="' + nullToString(info.secondPersonPhone) + '" maxlength="11"></li>',
+            '<li><label>闭店表箱号</label><input name="closeShopBox" type="text" class="dfinput" value="' + nullToString(info.closeShopBox) + '" maxlength="50"></li>',
+            '<li><label>是否有备用钥匙</label><input name="hasSpareKey" type="checkbox" style="width: 30px !important;" class="dfinput" ' + (info.hasSpareKey ? 'checked' : '') + ' maxlength="50"></li>',
+            '<li><label>备用钥匙箱号</label><input name="spareKeyBox" type="text" class="dfinput" value="' + nullToString(info.spareKeyBox) + '" maxlength="50"></li>',
+            '<li><label>闭店运行设备</label><input name="runningDevicesName" type="text" class="dfinput" value="' + deviceNames + '" readonly="readonly"><input name="runningDevices" type="hidden" value="' + nullToString(info.runningDevices) + '"/></li>',
             '</ul>',
             '</div>',
             '</form>'
@@ -236,6 +246,16 @@ function getInfoHtml(info) {
             '<option value="3">娱乐</option>',
             '<option value="4">其他</option>',
             '</select></li>',
+            '<li><label>第一责任人</label><input name="firstPersonName" type="text" class="dfinput" maxlength="20"></li>',
+            '<li><label>责任人职务</label><input name="firstPersonPost" type="text" class="dfinput" maxlength="11"></li>',
+            '<li><label>责任人号码</label><input name="firstPersonPhone" type="text" class="dfinput" maxlength="11"></li>',
+            '<li><label>第二责任人</label><input name="secondPersonName" type="text" class="dfinput" maxlength="20"></li>',
+            '<li><label>责任人职务</label><input name="secondPersonPost" type="text" class="dfinput" maxlength="11"></li>',
+            '<li><label>责任人号码</label><input name="secondPersonPhone" type="text" class="dfinput" maxlength="11"></li>',
+            '<li><label>闭店表箱号</label><input name="closeShopBox" type="text" class="dfinput" maxlength="50"></li>',
+            '<li><label>是否有备用钥匙</label><input name="hasSpareKey" type="checkbox" class="dfinput" style="width: 30px !important;" maxlength="50"></li>',
+            '<li><label>备用钥匙箱号</label><input name="spareKeyBox" type="text" class="dfinput" maxlength="50"></li>',
+            '<li><label>闭店运行设备</label><input name="runningDevicesName" type="text" class="dfinput" readonly="readonly"><input name="runningDevices" type="hidden"/></li>',
             '</ul>',
             '</div>',
             '</form>'
@@ -254,4 +274,90 @@ function getInfo(infoId) {
         }
     }, false);
     return info;
+}
+
+/**
+ * 选择闭店不关闭设备
+ * @param nameInput
+ * @param idInput
+ */
+function chooseDevices(nameInput, idInput) {
+    var devices = getDevices();
+    var html = [
+        '<table class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">',
+        '<thead>',
+        '<th><input type="checkbox" class="allcheck"/></th>',
+        '<th>设备类别</th>',
+        '<th>设备名称</th>',
+        '</thead>'
+    ];
+    $.each(devices, function (i, device) {
+        html.push('<tr>');
+        html.push('<td><input type="checkbox" class="itemcheck" deviceId="' + device.deviceId + '" deviceName="' + device.deviceName + '"/></td>');
+        html.push('<td>' + transFormDeviceType(device.deviceType) + '</td>');
+        html.push('<td>' + device.deviceName + '</td>');
+        html.push('</tr>');
+    });
+    html.push('</table>');
+    var layerIndex = layer.open({
+        title: '设备选择',
+        type: 1,
+        shadeClose: false,
+        closeBtn: 0,
+        area: ['400px', '600px'],
+        btn: ['确定', '取消'],
+        content: html.join(''),
+        success: function (dom) {
+            $(dom).find('input.allcheck').on('change', function () {
+                if ($(this).is(':checked')) {
+                    $(dom).find('input.itemcheck').attr('checked', 'true');
+                } else {
+                    $(dom).find('input.itemcheck').removeAttr('checked');
+                }
+            });
+        },
+        btn1: function (index, dom) {
+            var inputs = $(dom).find('input.itemcheck:checked');
+            var names = '';
+            var ids = '';
+            if (inputs && inputs.length > 0) {
+                $.each(inputs, function (i, input) {
+                    names += $(input).attr('deviceName') + ',';
+                    ids += $(input).attr('deviceId') + ',';
+                });
+                if(names.length > 0){
+                    names = names.substr(0, names.length - 1);
+                }
+                if(ids.length > 0){
+                    ids = ids.substr(0, ids.length - 1);
+                }
+            }
+            $(nameInput).val(names);
+            $(idInput).val(ids);
+
+            layer.close(layerIndex);
+        }
+    });
+}
+
+/**
+ * 设备类型:0 办公类;1 安全防范类;2 照明;3 保鲜类;4 生鲜水池类;5 其他
+ * @param deviceType
+ */
+function transFormDeviceType(deviceType) {
+    var name = '';
+    if (deviceType == '0') {
+        name = '办公类';
+    } else if (deviceType == '1') {
+        name = '安全防范类';
+    } else if (deviceType == '2') {
+        name = '照明';
+    } else if (deviceType == '3') {
+        name = '保鲜类';
+    } else if (deviceType == '4') {
+        name = '生鲜水池类';
+    } else {
+        name = '其他';
+    }
+    return name;
 }

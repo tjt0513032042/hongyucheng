@@ -72,8 +72,8 @@ function getShops() {
     return shops;
 }
 
-function getDevices(){
-    var url = getRoot() + '/devices/getAllDevices.do';
+function getDevices() {
+    var url = getRoot() + '/device/getAllDevices.do';
     var params = {};
     var infos = null;
     sendAjax(url, params, function (callback) {
@@ -82,4 +82,11 @@ function getDevices(){
         }
     }, false);
     return infos;
+}
+
+function nullToString(val) {
+    if (val == null) {
+        return '';
+    }
+    return val;
 }
