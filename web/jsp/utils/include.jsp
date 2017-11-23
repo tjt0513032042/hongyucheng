@@ -23,6 +23,10 @@
 <link type="text/css" href="<%=basePath%>/js/utils/pagination.css" rel="stylesheet"/>
 <script type="text/javascript" src="<%=basePath%>/js/layer/layer.js"></script>
 
+<!-- jquery ui -->
+<link type="text/css" href="<%=basePath%>/js/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet"/>
+<script type="text/javascript" src="<%=basePath%>/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<link type="text/css" href="<%=basePath%>/js/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
 
 <script>
     $.extend($.validator.messages, {

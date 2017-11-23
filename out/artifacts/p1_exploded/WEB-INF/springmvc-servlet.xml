@@ -11,7 +11,7 @@
     <context:component-scan base-package="com.hongyuecheng"/>
 
     <!-- if you use annotation you must configure following setting -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven conversion-service="conversionService" />
 
     <!-- configure the InternalResourceViewResolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -38,4 +38,13 @@
             </list>
         </property>
     </bean>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="dateConvert"/>
+            </set>
+        </property>
+    </bean>
+    <bean id="dateConvert" class="com.hongyuecheng.utils.StringToDateCover"/>
 </beans>

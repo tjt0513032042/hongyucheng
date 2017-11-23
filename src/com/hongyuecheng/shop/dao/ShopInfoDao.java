@@ -4,6 +4,7 @@ import com.hongyuecheng.shop.entity.ShopInfo;
 import com.hongyuecheng.utils.DaoUtils;
 import com.hongyuecheng.utils.Page;
 import com.hongyuecheng.utils.ReturnValue;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -76,5 +77,26 @@ public class ShopInfoDao {
         } else {
             page.setResult(new ArrayList());
         }
+    }
+
+    public List<ShopInfo> getShopInfos(String shopIds) {
+        if (StringUtils.isEmpty(shopIds)) {
+            return new ArrayList<>();
+        }
+        String sql = "select * from shop_info where shop_id in (" + shopIds + ")";
+        return jdbcTemplate.query(sql, ShopInfo.getDefaultRowHander());
+    }
+
+    public List<ShopInfo> getShopInfoRandom(int count) {
+        String sql = "select * from shop_info ORDER BY RAND() LIMIT " + count;
+        return jdbcTemplate.query(sql, ShopInfo.getDefaultRowHander());
+    }
+
+    public List<ShopInfo> getShopInfoByName(String shopName) {
+        String sql = "select * from shop_info where 1=1 ";
+        if (StringUtils.isNotEmpty(shopName)) {
+            sql += " and shop_name like '%" + shopName + "%'";
+        }
+        return jdbcTemplate.query(sql, ShopInfo.getDefaultRowHander());
     }
 }

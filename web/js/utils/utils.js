@@ -21,7 +21,7 @@ function getRoot() {
  * @param callbackfunction
  * @param async
  */
-function sendAjax(url, params, callbackfunction, async) {
+function sendAjax(url, params, callbackfunction, async, contentType) {
     if (!callbackfunction || !jQuery.isFunction(callbackfunction)) {
         callbackfunction = function (callback) {
 
@@ -30,14 +30,18 @@ function sendAjax(url, params, callbackfunction, async) {
     if (async == undefined) {
         async = true
     }
-    $.ajax({
+    var opts = {
         url: url,
         data: params,
         async: async,
         dataType: 'json',
         type: 'POST',
         success: callbackfunction
-    });
+    };
+    if (contentType) {
+        opts.contentType = contentType;
+    }
+    $.ajax(opts);
 }
 
 /**
@@ -89,4 +93,43 @@ function nullToString(val) {
         return '';
     }
     return val;
+}
+
+function initDatePicker(dateinput, opt) {
+    if (dateinput) {
+        if (!opt) {
+            opt = {};
+        }
+        opt = $.extend(opt, {
+            numberOfMonths: 1,//显示几个月
+            showButtonPanel: true,//是否显示按钮面板
+            dateFormat: 'yy-mm-dd',//日期格式
+            clearText: "清除",//清除日期的按钮名称
+            closeText: "关闭",//关闭选择框的按钮名称
+            showMonthAfterYear: true,//是否把月放在年的后面
+            yearSuffix: '年', //年的后缀
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            dayNamesMin: ['日', '一', '二', '三', '四', '五', '六']
+        })
+        $(dateinput).datepicker(opt);
+    }
+}
+
+function transFormShopType(type) {
+    type = type + '';
+    var desc = '';
+    if (type == '1') {
+        desc = '零售';
+    } else if (type == '2') {
+        desc = '服务';
+    } else if (type == '3') {
+        desc = '娱乐';
+    } else if (type == '4') {
+        desc = '其他';
+    } else if (type == '0') {
+        desc = '餐饮';
+    }
+    return desc;
 }
