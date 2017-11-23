@@ -38,5 +38,10 @@ public class Constants {
      * 店铺类型:其他
      */
     public static final Integer SHOP_TYPE_OTHER = 4;
+
+    /**
+     * git test
+     */
+    public static final String a = "test";
 }
 
