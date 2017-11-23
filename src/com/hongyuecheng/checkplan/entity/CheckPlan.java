@@ -1,11 +1,13 @@
 package com.hongyuecheng.checkplan.entity;
 
+import com.hongyuecheng.shop.entity.ShopInfo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by admin on 2017/11/16.
@@ -15,6 +17,8 @@ public class CheckPlan implements Serializable {
     private Integer planId;
     private Date checkDate;
     private String shopIds;
+
+    private List<ShopInfo> shopList;
 
     public Integer getPlanId() {
         return planId;
@@ -38,6 +42,14 @@ public class CheckPlan implements Serializable {
 
     public void setShopIds(String shopIds) {
         this.shopIds = shopIds;
+    }
+
+    public List<ShopInfo> getShopList() {
+        return shopList;
+    }
+
+    public void setShopList(List<ShopInfo> shopList) {
+        this.shopList = shopList;
     }
 
     public static RowMapper<CheckPlan> getDefaultRowHander() {

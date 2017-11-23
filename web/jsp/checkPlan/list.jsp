@@ -18,8 +18,8 @@
     <div class="tools">
         <form id="searchForm">
             <ul class="toolbar">
-                <li style="border: 0px !important; background: url();">
-                    <label>商家名称</label>&nbsp;<input type="text" name="shopName" class="dfinput">
+                <li style="border: 0px !important;">
+                    <label>抽查时间</label>&nbsp;<input type="text" name="start" class="dfinput" style="width: 211px !important;" readonly="readonly">~<input type="text" name="end" class="dfinput" style="width: 211px !important;" readonly="readonly">
                 </li>
                 <li id="searchButton"><span style="margin-top: 2px !important;"><img src="<%=basePath%>/images/ico06.png"/></span>查询</li>
                 <li id="addButton"><span><img src="<%=basePath%>/images/t01.png"/></span>添加</li>
@@ -30,8 +30,8 @@
     <div id="content">
         <table id="userInfoList" class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">
             <thead>
-                <th>商家名称</th>
-                <th>商家类型</th>
+                <th>抽查日期</th>
+                <th>被抽查商家</th>
                 <th>操作</th>
             </thead>
         </table>

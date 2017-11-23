@@ -4,12 +4,14 @@ import com.hongyuecheng.shop.entity.ShopInfo;
 import com.hongyuecheng.shop.service.ShopInfoService;
 import com.hongyuecheng.utils.Page;
 import com.hongyuecheng.utils.ReturnValue;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,8 +37,8 @@ public class ShopController {
 
     @RequestMapping(value = "/getShopInfo", method = RequestMethod.POST)
     @ResponseBody
-    public ShopInfo getShopInfo(Integer shopId){
-        if(null == shopId){
+    public ShopInfo getShopInfo(Integer shopId) {
+        if (null == shopId) {
             return null;
         }
         return shopInfoService.getShopInfo(shopId);
@@ -86,5 +88,11 @@ public class ShopController {
         }
         shopInfoService.queryPageList(shopInfo, page);
         return page;
+    }
+
+    @RequestMapping(value = "/getShopInfoByName", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ShopInfo> getShopInfoByName(String shopName) {
+        return shopInfoService.getShopInfoByName(shopName);
     }
 }

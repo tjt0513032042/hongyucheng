@@ -96,7 +96,7 @@ function registerFunc() {
         var userId = $(this).closest('tr').attr('userId');
         var userInfo = getUserInfo(userId);
         if (!userInfo || null == userInfo) {
-            alert('用户信息已不存在，无法执行该操作!');
+            layer.msg('用户信息已不存在，无法执行该操作!');
             return;
         }
         toSaveUserInfo(userInfo);

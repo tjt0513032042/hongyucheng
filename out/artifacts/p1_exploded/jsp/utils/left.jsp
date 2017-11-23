@@ -42,23 +42,19 @@
 
     <dd>
         <div class="title">
-            <span><img src="<%=basePath%>/images/leftico01.png" /></span>管理信息
+            <span><img src="<%=basePath%>/images/leftico01.png" /></span>信息管理
         </div>
         <ul class="menuson">
             <li><cite></cite><a href="<%=basePath%>/user/list.do" target="rightFrame">人员管理</a><i></i></li>
             <li><cite></cite><a href="<%=basePath%>/shop/list.do" target="rightFrame">店家管理</a><i></i></li>
         </ul>
     </dd>
-
-
     <dd>
         <div class="title">
-            <span><img src="<%=basePath%>/images/leftico02.png" /></span>其他设置
+            <span><img src="<%=basePath%>/images/leftico02.png" /></span>抽查管理
         </div>
         <ul class="menuson">
-            <li><cite></cite><a href="#">编辑内容</a><i></i></li>
-            <li><cite></cite><a href="#">发布信息</a><i></i></li>
-            <li><cite></cite><a href="#">档案列表显示</a><i></i></li>
+            <li><cite></cite><a href="<%=basePath%>/checkPlan/list.do" target="rightFrame">抽查计划</a><i></i></li>
         </ul>
     </dd>
 </dl>

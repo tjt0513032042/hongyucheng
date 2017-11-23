@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     $('input.loginbtn').on('click', function () {
         if($('#userName').val() == '' || $('#password').val() == ''){
-            alert("用户名和密码不能为空!");
+            layer.msg("用户名和密码不能为空!");
             return;
         }
         var url = getRoot() + "/login/auth.do";
@@ -20,7 +20,7 @@ $(document).ready(function () {
                 $('#mainForm input[name=id]').val(userInfo.id);
                 $('#mainForm').submit();
             } else {
-                alert("用户名或密码错误!");
+                layer.msg("用户名或密码错误!");
             }
         });
     });

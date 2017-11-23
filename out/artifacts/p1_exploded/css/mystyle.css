@@ -7,3 +7,11 @@
     float: initial !important;
     display: inline !important;
 }
+
+.ui-datepicker-year {
+    display: inline !important;
+}
+
+.ui-datepicker-month {
+    display: inline !important;
+}
