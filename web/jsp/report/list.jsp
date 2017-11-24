@@ -1,0 +1,40 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<%@ include file="/jsp/utils/include.jsp" %>
+<head>
+    <title>Report</title>
+</head>
+<script type="text/javascript" src="<%=basePath%>/js/report/report.js"></script>
+<body>
+<div class="rightinfo">
+
+    <div class="tools">
+        <form id="searchForm">
+            <ul class="toolbar">
+                <li style="border: 0px !important; background: url();">
+                    <label>商家名称</label>&nbsp;<input type="text" name="shopName" class="dfinput">
+                    <label>抽查时间</label>&nbsp;<input type="text" name="start" class="dfinput" style="width: 211px !important;" readonly="readonly">~<input type="text" name="end" class="dfinput" style="width: 211px !important;" readonly="readonly">
+                </li>
+                <li id="searchButton"><span style="margin-top: 2px !important;"><img src="<%=basePath%>/images/ico06.png"/></span>查询</li>
+            </ul>
+        </form>
+        <br><br><br>
+    </div>
+    <div id="content">
+        <table id="userInfoList" class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">
+            <thead>
+                <th>时间</th>
+                <th>商家名称</th>
+                <th>检查项</th>
+                <th>检查结果</th>
+            </thead>
+        </table>
+        <div class="paginationBox"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.tablelist tbody tr:odd').addClass('odd');
+</script>
+</body>
+</html>

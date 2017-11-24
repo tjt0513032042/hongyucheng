@@ -57,6 +57,14 @@
             <li><cite></cite><a href="<%=basePath%>/checkPlan/list.do" target="rightFrame">抽查计划</a><i></i></li>
         </ul>
     </dd>
+    <dd>
+        <div class="title">
+            <span><img src="<%=basePath%>/images/leftico02.png" /></span>报表查看
+        </div>
+        <ul class="menuson">
+            <li><cite></cite><a href="<%=basePath%>/report/list.do" target="rightFrame">报表查看</a><i></i></li>
+        </ul>
+    </dd>
 </dl>
 
 </body>
