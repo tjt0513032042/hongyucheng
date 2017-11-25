@@ -93,4 +93,13 @@ public class CheckPlanService {
         }
         return checkPlanDao.modifyCheckPlan(checkPlan);
     }
+
+    public CheckPlan getPlanByDateAndShop(Date date, Integer shopId){
+        if (null == date) {
+            return null;
+        }
+        // 格式化时间参数，抽查计划只有年月日
+        date = DateUtil.parse(DateUtil.format(date, DateUtil.FORMAT_TYPE_1), DateUtil.FORMAT_TYPE_1);
+        return checkPlanDao.getPlanByDateAndShop(date, shopId);
+    }
 }

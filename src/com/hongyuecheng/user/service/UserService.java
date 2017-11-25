@@ -18,6 +18,9 @@ public class UserService {
     private UserDao userDao;
 
     public User getUserById(Integer id) {
+        if (null == id) {
+            return null;
+        }
         return userDao.getUserById(id);
     }
 
@@ -45,7 +48,7 @@ public class UserService {
         return userDao.update(user);
     }
 
-    public boolean checkPhoneExist(String phone){
+    public boolean checkPhoneExist(String phone) {
         return userDao.checkPhoneExist(phone);
     }
 }

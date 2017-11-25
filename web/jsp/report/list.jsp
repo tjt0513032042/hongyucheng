@@ -4,7 +4,7 @@
 <head>
     <title>Report</title>
 </head>
-<script type="text/javascript" src="<%=basePath%>/js/report/report.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/report/checkRecords.js"></script>
 <body>
 <div class="rightinfo">
 
@@ -23,10 +23,12 @@
     <div id="content">
         <table id="userInfoList" class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">
             <thead>
-                <th>时间</th>
                 <th>商家名称</th>
-                <th>检查项</th>
-                <th>检查结果</th>
+                <th>填写日期</th>
+                <th>填写人</th>
+                <th>手机号码</th>
+                <th>记录类型</th>
+                <th>操作</th>
             </thead>
         </table>
         <div class="paginationBox"></div>

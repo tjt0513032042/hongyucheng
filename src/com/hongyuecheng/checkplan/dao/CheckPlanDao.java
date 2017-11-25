@@ -84,8 +84,17 @@ public class CheckPlanDao {
         return null;
     }
 
-    public int modifyCheckPlan(CheckPlan checkPlan){
+    public int modifyCheckPlan(CheckPlan checkPlan) {
         String sql = "update check_plan set shop_ids = ? where plan_id = ?";
         return jdbcTemplate.update(sql, checkPlan.getShopIds(), checkPlan.getPlanId());
+    }
+
+    public CheckPlan getPlanByDateAndShop(Date date, Integer shopId) {
+        String sql = "select * from check_plan where check_date = ? and concat(',', shop_ids, ',') like '%, " + shopId + " ,%'";
+        List<CheckPlan> plans = jdbcTemplate.query(sql, new Object[]{date}, CheckPlan.getDefaultRowHander());
+        if (CollectionUtils.isNotEmpty(plans)) {
+            return plans.get(0);
+        }
+        return null;
     }
 }

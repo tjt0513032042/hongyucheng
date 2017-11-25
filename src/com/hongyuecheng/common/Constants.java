@@ -40,6 +40,15 @@ public class Constants {
     public static final Integer SHOP_TYPE_OTHER = 4;
 
     /**
+     * 检查类型:开店表
+     */
+    public static final Integer CHECK_RECORD_TYPE_OPEN = 0;
+    /**
+     * 检查类型:闭店表
+     */
+    public static final Integer CHECK_RECORD_TYPE_CLOSE = 1;
+
+    /**
      * git test
      */
     public static final String a = "test";
