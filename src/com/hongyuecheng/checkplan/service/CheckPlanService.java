@@ -27,8 +27,8 @@ public class CheckPlanService {
     @Autowired
     private CheckPlanDao checkPlanDao;
 
-    public void queryPlans(Date start, Date end, Page page) {
-        checkPlanDao.queryPlans(start, end, page);
+    public void queryPlans(String shopName, Date start, Date end, Page page) {
+        checkPlanDao.queryPlans(shopName, start, end, page);
     }
 
     public List<CheckPlan> createPlans(Date start, Date end) {

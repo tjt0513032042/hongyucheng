@@ -19,6 +19,7 @@
         <form id="searchForm">
             <ul class="toolbar">
                 <li style="border: 0px !important;">
+                    <label>商家名称</label>&nbsp;<input type="text" name="shopName" class="dfinput">
                     <label>抽查时间</label>&nbsp;<input type="text" name="start" class="dfinput" style="width: 211px !important;" readonly="readonly">~<input type="text" name="end" class="dfinput" style="width: 211px !important;" readonly="readonly">
                 </li>
                 <li id="searchButton"><span style="margin-top: 2px !important;"><img src="<%=basePath%>/images/ico06.png"/></span>查询</li>

@@ -32,13 +32,13 @@ public class CheckPlanController {
 
     @RequestMapping(value = "/queryPlans", method = RequestMethod.POST)
     @ResponseBody
-    public Page queryPlans(String start, String end, Page page) {
+    public Page queryPlans(String shopName, String start, String end, Page page) {
         if (null == page) {
             page = new Page();
         }
         Date startDate = DateUtil.parse(start, DateUtil.FORMAT_TYPE_1);
         Date endDate = DateUtil.parse(end, DateUtil.FORMAT_TYPE_1);
-        checkPlanService.queryPlans(startDate, endDate, page);
+        checkPlanService.queryPlans(shopName, startDate, endDate, page);
         return page;
     }
 

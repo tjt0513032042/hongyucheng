@@ -2,9 +2,11 @@ package com.hongyuecheng.checkplan.dao;
 
 import com.hongyuecheng.checkplan.entity.CheckPlan;
 import com.hongyuecheng.shop.dao.ShopInfoDao;
+import com.hongyuecheng.shop.entity.ShopInfo;
 import com.hongyuecheng.utils.DaoUtils;
 import com.hongyuecheng.utils.Page;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -25,7 +27,7 @@ public class CheckPlanDao {
     @Autowired
     private ShopInfoDao shopInfoDao;
 
-    public void queryPlans(Date start, Date end, Page page) {
+    public void queryPlans(String shopName, Date start, Date end, Page page) {
         String sql = "select * from check_plan where 1=1 ";
         List<Object> params = new ArrayList<>();
         if (null != start) {
@@ -36,6 +38,25 @@ public class CheckPlanDao {
             sql += " and check_date <= ? ";
             params.add(end);
         }
+        if (StringUtils.isNotEmpty(shopName)) {
+            List<ShopInfo> shopInfos = shopInfoDao.getShopInfoByName(shopName);
+            if (CollectionUtils.isNotEmpty(shopInfos)) {
+                sql += " and ( ";
+                for (int i = 0; i < shopInfos.size(); i++) {
+                    ShopInfo shop = shopInfos.get(i);
+                    if (i > 0) {
+                        sql += " or ";
+                    }
+                    sql += " concat(',', shop_ids ,',') like '%" + shop.getShopId() + "%' ";
+                }
+                sql += " ) ";
+            } else {
+                page.setTotal(0l);
+                page.setResult(new ArrayList<>());
+                return;
+            }
+        }
+        sql += " order by check_date desc ";
         Long total = DaoUtils.getTotalNumber(sql, params.toArray(), jdbcTemplate);
         page.setTotal(total);
         if (total > 0) {
