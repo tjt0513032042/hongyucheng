@@ -144,13 +144,17 @@ function showCheckDetail(recordId) {
 }
 
 function getDetailsHtml(info) {
-    var title = info.shopInfo.shopName + '-' + getRecordType(info.recordType) + '  ' + info.checkDateStr;
+    var title = info.shopInfo.shopName + '-' + getRecordType(info.recordType);
     var html = [
         '<form style="padding-left: 5px; padding-right: 5px;">',
         '<input type="hidden" name="shopId" value="' + info.shopId + '">',
-        '<div class="formbody">',
+        '<div class="formbody" style="padding-bottom: 0px;">',
         '<div class="formtitle"><span>' + title + '</span></div>',
         '</div>',
+        '<ul class="forminfo">',
+        '<li><label>填写人</label><label>' + info.user.name + '</label></li>',
+        '<li><label>填写时间</label><label style="width: 200px;">' + info.checkDateStr + '</label></li>',
+        '</ul>',
         '<table name="checkPlanTable" class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">',
         '<thead>',
         '<th>检查项目</th>',
