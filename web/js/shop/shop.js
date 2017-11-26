@@ -34,6 +34,9 @@ function searchList(name, pageNo, pageSize) {
                         htmlContent.push('<tr class="contentDatas" infoId="' + data.shopId + '">');
                     }
                     htmlContent.push('<td>');
+                    htmlContent.push(data.sNo);
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
                     htmlContent.push(data.shopName);
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
@@ -48,6 +51,9 @@ function searchList(name, pageNo, pageSize) {
                     } else {
                         htmlContent.push('未知');
                     }
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
+                    htmlContent.push(data.floor);
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
                     htmlContent.push(data.firstPersonName);
@@ -123,7 +129,7 @@ function registerFunc() {
             time: 0 //不自动关闭
             , btn: ['确定', '取消']
             , yes: function (index) {
-                var url = getRoot() + '/shop/delete.do';
+                var url = getRoot() + '/shop/deleteShopInfo.do';
                 var params = {shopId: id};
                 sendAjax(url, params, function (callback) {
                     if (callback) {
@@ -156,6 +162,9 @@ function toSave(info) {
             // 设置jquery验证器
             var rules = {
                 shopName: {
+                    required: true
+                },
+                sNo: {
                     required: true
                 }
             };
@@ -208,7 +217,8 @@ function getInfoHtml(info) {
             '<div class="formbody">',
             '<div class="formtitle"><span>商家信息</span></div>',
             '<ul class="forminfo">',
-            '<li><label>商家名称</label><input name="shopName" type="text" class="dfinput" value="' + info.shopName + '" maxlength="50"></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>商家编号</label><input name="sNo" type="text" class="dfinput" value="' + info.sNo + '" maxlength="20"></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>商家名称</label><input name="shopName" type="text" class="dfinput" value="' + info.shopName + '" maxlength="50"></li>',
             '<li><label>商家类型</label>',
             '<select name="shopType" class="dfinput">',
             '<option value="0" ' + (info.shopType == 0 ? 'selected' : '') + '>餐饮</option>',
@@ -217,6 +227,17 @@ function getInfoHtml(info) {
             '<option value="3" ' + (info.shopType == 3 ? 'selected' : '') + '>娱乐</option>',
             '<option value="4" ' + (info.shopType == 4 ? 'selected' : '') + '>其他</option>',
             '</select></li>',
+            '<li><label>商家楼层</label>',
+            '<select name="floor" class="dfinput">',
+            '<option value="B2" ' + (info.floor == 'B2' ? 'selected' : '') + '>B2</option>',
+            '<option value="B1" ' + (info.floor == 'B1' ? 'selected' : '') + '>B1</option>',
+            '<option value="1" ' + (info.floor == '1' ? 'selected' : '') + '>1</option>',
+            '<option value="2" ' + (info.floor == '2' ? 'selected' : '') + '>2</option>',
+            '<option value="3" ' + (info.floor == '3' ? 'selected' : '') + '>3</option>',
+            '<option value="4" ' + (info.floor == '4' ? 'selected' : '') + '>4</option>',
+            '<option value="5" ' + (info.floor == '5'? 'selected' : '') + '>5</option>',
+            '</select>',
+            '</li>',
             '<li><label>第一责任人</label><input name="firstPersonName" type="text" class="dfinput" value="' + nullToString(info.firstPersonName) + '" maxlength="20"></li>',
             '<li><label>责任人职务</label><input name="firstPersonPost" type="text" class="dfinput" value="' + nullToString(info.firstPersonPost) + '" maxlength="11"></li>',
             '<li><label>责任人号码</label><input name="firstPersonPhone" type="text" class="dfinput" value="' + nullToString(info.firstPersonPhone) + '" maxlength="11"></li>',
@@ -237,7 +258,8 @@ function getInfoHtml(info) {
             '<div class="formbody">',
             '<div class="formtitle"><span>商家信息</span></div>',
             '<ul class="forminfo">',
-            '<li><label>商家名称</label><input name="shopName" type="text" class="dfinput" " maxlength="50"></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>商家编号</label><input name="sNo" type="text" class="dfinput" maxlength="20"></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>商家名称</label><input name="shopName" type="text" class="dfinput" " maxlength="50"></li>',
             '<li><label>商家类型</label>',
             '<select name="shopType" class="dfinput">',
             '<option value="0">餐饮</option>',
@@ -246,6 +268,17 @@ function getInfoHtml(info) {
             '<option value="3">娱乐</option>',
             '<option value="4">其他</option>',
             '</select></li>',
+            '<li><label>商家楼层</label>',
+            '<select name="floor" class="dfinput">',
+            '<option value="B2">B2</option>',
+            '<option value="B1">B1</option>',
+            '<option value="1">1</option>',
+            '<option value="2">2</option>',
+            '<option value="3">3</option>',
+            '<option value="4">4</option>',
+            '<option value="5">5</option>',
+            '</select>',
+            '</li>',
             '<li><label>第一责任人</label><input name="firstPersonName" type="text" class="dfinput" maxlength="20"></li>',
             '<li><label>责任人职务</label><input name="firstPersonPost" type="text" class="dfinput" maxlength="11"></li>',
             '<li><label>责任人号码</label><input name="firstPersonPhone" type="text" class="dfinput" maxlength="11"></li>',

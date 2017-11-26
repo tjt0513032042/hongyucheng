@@ -42,17 +42,17 @@ public class ShopInfoDao {
 
     public int add(ShopInfo shopInfo) {
         String sql = "insert into shop_info (shop_name, shop_type, first_person_name, first_person_post, first_person_phone, second_person_name, second_person_post, second_person_phone," +
-                "close_shop_box, has_spare_key, spare_key_box, running_devices) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "close_shop_box, has_spare_key, spare_key_box, running_devices, s_no, floor) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, shopInfo.getShopName(), shopInfo.getShopType(), shopInfo.getFirstPersonName(), shopInfo.getFirstPersonPost(), shopInfo.getFirstPersonPhone(),
-                shopInfo.getSecondPersonName(), shopInfo.getSecondPersonPost(), shopInfo.getSecondPersonPhone(), shopInfo.getCloseShopBox(), shopInfo.isHasSpareKey(), shopInfo.getSpareKeyBox(), shopInfo.getRunningDevices());
+                shopInfo.getSecondPersonName(), shopInfo.getSecondPersonPost(), shopInfo.getSecondPersonPhone(), shopInfo.getCloseShopBox(), shopInfo.isHasSpareKey(), shopInfo.getSpareKeyBox(), shopInfo.getRunningDevices(), shopInfo.getsNo(), shopInfo.getFloor());
     }
 
     public int update(ShopInfo shopInfo) {
         String sql = "update shop_info set shop_name = ?, shop_type = ?, first_person_name = ?, first_person_post = ?, first_person_phone = ?," +
-                " second_person_name = ?, second_person_post = ?, second_person_phone = ?, close_shop_box = ?, has_spare_key = ?, spare_key_box = ?, running_devices = ?  where shop_id = ?";
+                " second_person_name = ?, second_person_post = ?, second_person_phone = ?, close_shop_box = ?, has_spare_key = ?, spare_key_box = ?, running_devices = ?, s_no = ?, floor = ?  where shop_id = ?";
         return jdbcTemplate.update(sql, shopInfo.getShopName(), shopInfo.getShopType(), shopInfo.getFirstPersonName(), shopInfo.getFirstPersonPost(), shopInfo.getFirstPersonPhone(),
                 shopInfo.getSecondPersonName(), shopInfo.getSecondPersonPost(), shopInfo.getSecondPersonPhone(), shopInfo.getCloseShopBox(), shopInfo.isHasSpareKey(), shopInfo.getSpareKeyBox(),
-                shopInfo.getRunningDevices(), shopInfo.getShopId());
+                shopInfo.getRunningDevices(), shopInfo.getsNo(), shopInfo.getFloor(), shopInfo.getShopId());
     }
 
     public int delete(Integer shopId) {
@@ -93,10 +93,22 @@ public class ShopInfoDao {
     }
 
     public List<ShopInfo> getShopInfoByName(String shopName) {
-        if(StringUtils.isEmpty(shopName)){
+        if (StringUtils.isEmpty(shopName)) {
             return new ArrayList<>();
         }
         String sql = "select * from shop_info where 1=1 and shop_name like '%" + shopName + "%'";
         return jdbcTemplate.query(sql, ShopInfo.getDefaultRowHander());
+    }
+
+    public ShopInfo getShopInfoBySNo(String sNo) {
+        if (StringUtils.isEmpty(sNo)) {
+            return null;
+        }
+        String sql = "select * from shop_info where s_no = ?";
+        List<ShopInfo> list = jdbcTemplate.query(sql, new Object[]{sNo}, ShopInfo.getDefaultRowHander());
+        if (!CollectionUtils.isEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
     }
 }

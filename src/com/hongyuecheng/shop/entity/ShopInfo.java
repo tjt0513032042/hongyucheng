@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class ShopInfo implements Serializable{
 
+    private String sNo;
+    private String floor;
     private Integer shopId;
     private Integer shopType;
     private String shopName;
@@ -141,11 +143,29 @@ public class ShopInfo implements Serializable{
         this.deviceInfoList = deviceInfoList;
     }
 
+    public String getsNo() {
+        return sNo;
+    }
+
+    public void setsNo(String sNo) {
+        this.sNo = sNo;
+    }
+
+    public String getFloor() {
+        return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
+    }
+
     public static RowMapper<ShopInfo> getDefaultRowHander(){
         return new RowMapper<ShopInfo>() {
             @Override
             public ShopInfo mapRow(ResultSet resultSet, int i) throws SQLException {
                 ShopInfo info = new ShopInfo();
+                info.setsNo(resultSet.getString("S_NO"));
+                info.setFloor(resultSet.getString("FLOOR"));
                 info.setShopId(resultSet.getInt("SHOP_ID"));
                 info.setShopName(resultSet.getString("SHOP_NAME"));
                 info.setShopType(resultSet.getInt("SHOP_TYPE"));

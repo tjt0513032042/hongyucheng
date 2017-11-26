@@ -54,6 +54,15 @@ public class ShopController {
             return returnValue;
         }
         int excuteResult = 0;
+        // 校验商家编号不可重复
+        ShopInfo exsistShopInfo = shopInfoService.getShopInfoBySNo(shopInfo.getsNo());
+        if (null != exsistShopInfo) {
+            if (null == shopInfo.getShopId() || exsistShopInfo.getShopId().intValue() != shopInfo.getShopId().intValue()) {
+                returnValue.setFlag(false);
+                returnValue.setMsg("商家编号已存在,操作失败!");
+                return returnValue;
+            }
+        }
         if (null == shopInfo.getShopId()) {// 新增
             excuteResult = shopInfoService.add(shopInfo);
         } else {// 修改

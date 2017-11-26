@@ -63,4 +63,14 @@ public class ShopInfoService {
     public List<ShopInfo> getShopInfoByName(String shopName) {
         return shopInfoDao.getShopInfoByName(shopName);
     }
+
+    /**
+     * 根据商家编号获取商家信息
+     *
+     * @param sNo
+     * @return
+     */
+    public ShopInfo getShopInfoBySNo(String sNo) {
+        return shopInfoDao.getShopInfoBySNo(sNo);
+    }
 }

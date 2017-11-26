@@ -30,8 +30,10 @@
     <div id="content">
         <table id="userInfoList" class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">
             <thead>
+                <th>商家编号</th>
                 <th>商家名称</th>
                 <th>商家类型</th>
+                <th>商家楼层</th>
                 <th>第一责任人</th>
                 <th>第二责任人</th>
                 <th>闭店表箱号</th>
