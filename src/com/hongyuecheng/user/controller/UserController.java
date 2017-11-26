@@ -24,7 +24,6 @@ public class UserController {
 
     @RequestMapping("/list")
     public String list() {
-        User user = userService.getUserById(1);
         return "user/list";
     }
 
@@ -63,11 +62,23 @@ public class UserController {
             result.setMsg("用户信息错误,无法保存!");
             return result;
         }
-        if (userService.checkPhoneExist(user.getPhone())) {
-            result.setFlag(false);
-            result.setMsg("该手机已注册,无法重复注册!");
-            return result;
+        User exsitUser = userService.checkPhoneExist(user.getPhone());
+        if (null != exsitUser) {
+            if (null == user.getId() || user.getId().intValue() != exsitUser.getId().intValue()) {
+                result.setFlag(false);
+                result.setMsg("该手机已注册,无法重复注册!");
+                return result;
+            }
         }
+        exsitUser = userService.getUserByName(user.getName());
+        if (null != exsitUser) {
+            if (null == user.getId() || user.getId().intValue() != exsitUser.getId().intValue()) {
+                result.setFlag(false);
+                result.setMsg("该用户名已注册,无法重复注册!");
+                return result;
+            }
+        }
+
         int excuteResult = 0;
         if (user.getId() == null) {// 修改
             excuteResult = userService.addUser(user);

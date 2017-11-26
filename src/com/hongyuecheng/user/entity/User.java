@@ -15,10 +15,10 @@ public class User implements Serializable {
     private Integer id;
     private String name;
     private Integer role;
-    private Boolean canCheck;
     private String phone;
     private String password;
     private Integer shopId;
+    private String active;
 
     public Integer getId() {
         return id;
@@ -42,14 +42,6 @@ public class User implements Serializable {
 
     public void setRole(Integer role) {
         this.role = role;
-    }
-
-    public Boolean getCanCheck() {
-        return canCheck;
-    }
-
-    public void setCanCheck(Boolean canCheck) {
-        this.canCheck = canCheck;
     }
 
     public String getPhone() {
@@ -76,6 +68,14 @@ public class User implements Serializable {
         this.shopId = shopId;
     }
 
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
+
     public static RowMapper<User> getDefaultRowHander() {
         RowMapper<User> rowMapper = new RowMapper<User>() {
             @Override
@@ -85,9 +85,9 @@ public class User implements Serializable {
                 user.setName(rs.getString("NAME"));
                 user.setRole(rs.getInt("ROLE"));
                 user.setPhone(rs.getString("PHONE"));
-                user.setCanCheck(rs.getBoolean("CAN_CHECK"));
                 user.setShopId(rs.getInt("SHOP_ID"));
                 user.setPassword(rs.getString("PASSWORD"));
+                user.setActive(rs.getString("ACTIVE"));
                 return user;
             }
         };

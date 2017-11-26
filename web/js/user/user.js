@@ -30,28 +30,25 @@ function searchList(name, phone, pageNo, pageSize) {
             if (datas && datas.length > 0) {
                 $.each(datas, function (i, data) {
                     console.log(i);
-                    if(i > 0 && i % 2 == 1){
+                    if (i > 0 && i % 2 == 1) {
                         htmlContent.push('<tr class="contentDatas odd" userId="' + data.id + '">');
-                    }else{
+                    } else {
                         htmlContent.push('<tr class="contentDatas" userId="' + data.id + '">');
                     }
                     htmlContent.push('<td>');
                     htmlContent.push(data.name);
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
-                    if (data.role == 1) {
+                    if (data.role == 0) {
                         htmlContent.push('管理员');
-                    } else if (data.role == 2) {
+                    } else if (data.role == 1) {
                         htmlContent.push('店长');
                     } else {
-                        htmlContent.push('员工');
+                        htmlContent.push('工作人员');
                     }
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
                     htmlContent.push(data.phone);
-                    htmlContent.push('</td>');
-                    htmlContent.push('<td>');
-                    htmlContent.push(data.canCheck ? '是' : '否');
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
                     htmlContent.push('<a href="#" class="tablelink modify">修改</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink delete">删除</a>');
@@ -153,9 +150,20 @@ function toSaveUserInfo(userInfo) {
                 rules: rules,
                 onfocusout: false
             });
+
+            $(dom).find('select[name=role]').on('change', function () {
+                var role = $(this).val();
+                // 仅在角色为店家的时候，才显示商店选择选项
+                if (role == 1) {
+                    $(dom).find('select[name=shopId]').closest('li').show();
+                } else {
+                    $(dom).find('select[name=shopId]').closest('li').hide();
+                }
+            });
+            $(dom).find('select[name=role]').trigger('change');
         },
         btn1: function (index, dom) {
-            if($(dom).find('form').valid()){
+            if ($(dom).find('form').valid()) {
                 var params = $(dom).find('form').serialize();
                 var url = getRoot() + '/user/saveUserInfo.do';
                 sendAjax(url, params, function (callback) {
@@ -187,17 +195,16 @@ function getUserInfoHtml(userInfo) {
             '<div class="formbody">',
             '<div class="formtitle"><span>用户信息</span></div>',
             '<ul class="forminfo">',
-            '<li><label>用户名称</label><input name="name" type="text" class="dfinput" value="' + userInfo.name + '" maxlength="10"></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>用户名称</label><input name="name" type="text" class="dfinput" value="' + userInfo.name + '" maxlength="10"></li>',
             '<li><label>用户角色</label>',
             '<select name="role" class="dfinput">',
             '<option value="0" ' + (userInfo.role == 0 ? 'selected' : '') + '>管理员</option>',
             '<option value="1" ' + (userInfo.role == 1 ? 'selected' : '') + '>店长</option>',
-            '<option value="2" ' + (userInfo.role == 2 ? 'selected' : '') + '>员工</option>',
+            '<option value="2" ' + (userInfo.role == 2 ? 'selected' : '') + '>工作人员</option>',
             '</select></li>',
-            '<li><label>手机号码</label><input name="phone" type="text" class="dfinput" value="' + userInfo.phone + '" maxlength="11"></li>',
-            '<li><label>抽查人员</label><select name="canCheck" class="dfinput"><option value="false" ' + (userInfo.canCheck ? '' : 'selected') + '>否</option><option value="true" ' + (userInfo.canCheck ? 'selected' : '') + '>是</option></select></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>手机号码</label><input name="phone" type="text" class="dfinput" value="' + userInfo.phone + '" maxlength="11"></li>',
             '<li><label>所属店家</label>' + getShopSelect(userInfo) + '</li>',
-            '<li><label>登录密码</label><input name="password" type="text" class="dfinput" value="' + userInfo.password + '" maxlength="11"></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>登录密码</label><input name="password" type="password" class="dfinput" value="' + userInfo.password + '" maxlength="11"></li>',
             '</ul>',
             '</div>',
             '</form>'
@@ -208,15 +215,14 @@ function getUserInfoHtml(userInfo) {
             '<div class="formbody">',
             '<div class="formtitle"><span>用户信息</span></div>',
             '<ul class="forminfo">',
-            '<li><label>用户名称</label><input name="name" type="text" class="dfinput" maxlength="10"></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>用户名称</label><input name="name" type="text" class="dfinput" maxlength="10"></li>',
             '<li><label>用户角色</label>',
             '<select name="role" class="dfinput">',
             '<option value="0">管理员</option>',
             '<option value="1">店长</option>',
-            '<option value="2">员工</option>',
+            '<option value="2">工作人员</option>',
             '</select></li>',
-            '<li><label>手机号码</label><input name="phone" type="text" class="dfinput" maxlength="11"></li>',
-            '<li><label>抽查人员</label><select name="canCheck" class="dfinput"><option value="false">否</option><option value="true">是</option></select></li>',
+            '<li><label><span style="display: inline;color: red;">*</span>手机号码</label><input name="phone" type="text" class="dfinput" maxlength="11"></li>',
             '<li><label>所属店家</label>' + getShopSelect() + '</li>',
             '</ul>',
             '</div>',
@@ -231,15 +237,15 @@ function getUserInfoHtml(userInfo) {
  * @param userInfo
  * @returns {string}
  */
-function getShopSelect(userInfo){
+function getShopSelect(userInfo) {
     var html = [
         '<select name="shopId" class="dfinput">',
         '<option value=""></option>'
     ];
     var shops = getShops();
-    if(shops && null != shops && shops.length > 0){
-        $.each(shops, function(i, shop){
-            html.push('<option value="' + shop.shopId + ' ' + ((userInfo && null != userInfo && userInfo.shopId == shop.shopId)  ? 'selected' : '') + '">' + shop.shopName + '</option>');
+    if (shops && null != shops && shops.length > 0) {
+        $.each(shops, function (i, shop) {
+            html.push('<option value="' + shop.shopId + ' ' + ((userInfo && null != userInfo && userInfo.shopId == shop.shopId) ? 'selected' : '') + '">' + shop.shopName + '</option>');
         });
     }
     html.push('</select>');

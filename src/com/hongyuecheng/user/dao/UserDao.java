@@ -22,7 +22,7 @@ public class UserDao {
     private JdbcTemplate jdbcTemplate;
 
     public User getUserById(Integer id) {
-        String sql = "select * from user_info where id = ? ";
+        String sql = "select * from user_info where id = ? and active = 'Y'";
         List<User> list = jdbcTemplate.query(sql, new Object[]{id}, User.getDefaultRowHander());
         if (!CollectionUtils.isEmpty(list)) {
             return list.get(0);
@@ -31,7 +31,7 @@ public class UserDao {
     }
 
     public User getUserByNameAndPassword(String name, String password) {
-        String sql = "select * from user_info where name = ? and password = ?";
+        String sql = "select * from user_info where name = ? and password = ? and active = 'Y'";
         List<User> list = jdbcTemplate.query(sql, new Object[]{name, password}, User.getDefaultRowHander());
         if (!CollectionUtils.isEmpty(list)) {
             return list.get(0);
@@ -40,7 +40,7 @@ public class UserDao {
     }
 
     public void queryUserList(User entity, Page<User> page) {
-        String sql = "select * from user_info t where 1=1 ";
+        String sql = "select * from user_info t where 1=1 and active = 'Y' ";
         if (null != entity) {
             if (StringUtils.isNotEmpty(entity.getName())) {
                 sql += " and t.name like '%" + entity.getName() + "%' ";
@@ -59,20 +59,17 @@ public class UserDao {
     }
 
     public int deleteUserById(Integer id) {
-        String sql = "delete from user_info where id = ?";
+        String sql = "update user_info set active = 'N' where id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
     public int add(User user) {
-        String sql = "insert into user_info (name, role, can_check, phone, shop_id) values (?, ?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, user.getName(), user.getRole(), user.getCanCheck(), user.getPhone(), user.getShopId());
+        String sql = "insert into user_info (name, role, phone, shop_id) values (?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, user.getName(), user.getRole(), user.getPhone(), user.getShopId());
     }
 
     public int update(User user) {
         String sql = "update user_info set ";
-        if (StringUtils.isNotEmpty(user.getName())) {
-            sql += " name = '" + user.getName() + "', ";
-        }
         if (null != user.getRole()) {
             sql += " role = " + user.getRole() + ", ";
         }
@@ -82,20 +79,29 @@ public class UserDao {
         if (null != user.getShopId()) {
             sql += " shop_id = " + user.getShopId() + ", ";
         }
-        if(StringUtils.isNotEmpty(user.getPassword())){
+        if (StringUtils.isNotEmpty(user.getPassword())) {
             sql += " password = '" + user.getPassword() + "', ";
         }
-        sql += " can_check = ? ";
+        sql += " name = '" + user.getName() + "' ";
         sql += " where id = ? ";
-        return jdbcTemplate.update(sql, user.getCanCheck(), user.getId());
+        return jdbcTemplate.update(sql, user.getId());
     }
 
-    public boolean checkPhoneExist(String phone) {
-        String sql = "select * from user_info where phone = ?";
+    public User checkPhoneExist(String phone) {
+        String sql = "select * from user_info where phone = ? and active = 'Y'";
         List<User> list = jdbcTemplate.query(sql, User.getDefaultRowHander(), phone);
         if (org.apache.commons.collections.CollectionUtils.isNotEmpty(list)) {
-            return true;
+            return list.get(0);
         }
-        return false;
+        return null;
+    }
+
+    public User getUserByName(String name) {
+        String sql = "select * from user_info where name = '" + name + "'";
+        List<User> list = jdbcTemplate.query(sql, User.getDefaultRowHander());
+        if (org.apache.commons.collections.CollectionUtils.isNotEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
     }
 }

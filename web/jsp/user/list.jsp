@@ -34,7 +34,6 @@
                 <th>姓名</th>
                 <th>角色</th>
                 <th>手机号码</th>
-                <th>抽查人员</th>
                 <th>操作</th>
             </thead>
         </table>

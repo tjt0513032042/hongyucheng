@@ -28,6 +28,11 @@ public class UserService {
         return userDao.getUserByNameAndPassword(name, password);
     }
 
+    public User getUserByName(String name){
+        return userDao.getUserByName(name);
+    }
+
+
     public void queryUserList(User entity, Page<User> page) {
         userDao.queryUserList(entity, page);
     }
@@ -48,7 +53,7 @@ public class UserService {
         return userDao.update(user);
     }
 
-    public boolean checkPhoneExist(String phone) {
+    public User checkPhoneExist(String phone) {
         return userDao.checkPhoneExist(phone);
     }
 }
