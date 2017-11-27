@@ -93,10 +93,10 @@ public class ShopInfoDao {
     }
 
     public List<ShopInfo> getShopInfoByName(String shopName) {
-        if (StringUtils.isEmpty(shopName)) {
-            return new ArrayList<>();
+        String sql = "select * from shop_info where 1=1 ";
+        if (StringUtils.isNotEmpty(shopName)) {
+            sql += "and shop_name like '%" + shopName + "%'";
         }
-        String sql = "select * from shop_info where 1=1 and shop_name like '%" + shopName + "%'";
         return jdbcTemplate.query(sql, ShopInfo.getDefaultRowHander());
     }
 

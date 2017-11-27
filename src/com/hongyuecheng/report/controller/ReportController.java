@@ -30,29 +30,29 @@ public class ReportController {
     public String list() {
         return "report/list";
     }
-    
-    
+
+
     @RequestMapping(value = "/queryReports", method = RequestMethod.POST)
     @ResponseBody
-    public Page queryReports(String start, String end, String shopName,Page page) {
+    public Page queryReports(String start, String end, String shopName, Page page) {
         if (null == page) {
             page = new Page();
         }
         Date startDate = DateUtil.parse(start, DateUtil.FORMAT_TYPE_1);
         Date endDate = DateUtil.parse(end, DateUtil.FORMAT_TYPE_1);
-        reportService.queryReoprt(startDate, endDate,shopName, page);
+        reportService.queryReoprt(startDate, endDate, shopName, page);
         return page;
     }
 
     @RequestMapping(value = "/queryCheckRecords", method = RequestMethod.POST)
     @ResponseBody
-    public Page queryCheckRecords(String start, String end, String shopName,Page page) {
+    public Page queryCheckRecords(String start, String end, String shopName, Page page) {
         if (null == page) {
             page = new Page();
         }
         Date startDate = DateUtil.parse(start, DateUtil.FORMAT_TYPE_1);
         Date endDate = DateUtil.parse(end, DateUtil.FORMAT_TYPE_1);
-        checkRecordsService.queryCheckRecords(startDate, endDate,shopName, page);
+        checkRecordsService.queryCheckRecords(startDate, endDate, shopName, page);
         return page;
     }
 

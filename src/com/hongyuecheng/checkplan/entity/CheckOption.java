@@ -65,7 +65,7 @@ public class CheckOption {
         this.checkType = checkType;
     }
 
-    public static RowMapper<CheckOption> getDefaultRowHandler(){
+    public static RowMapper<CheckOption> getDefaultRowHandler() {
         return new RowMapper<CheckOption>() {
             @Override
             public CheckOption mapRow(ResultSet resultSet, int i) throws SQLException {

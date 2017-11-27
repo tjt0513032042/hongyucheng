@@ -24,4 +24,14 @@ public class CheckRecordDetailDao {
         String sql = "SELECT d.*, i.option_sort, i.option_name FROM check_record_detail d LEFT JOIN check_option_info i ON d.option_code = i.option_code WHERE record_id = ? ORDER BY option_sort";
         return jdbcTemplate.query(sql, new Object[]{recordId}, CheckRecordDetail.getDefaultRowHandler());
     }
+
+    public boolean getRecordStatus(Integer recordId) {
+        boolean flag = true;
+        String sql = "select count(*) from check_record_detail where record_id = ? and option_result = 1";
+        Long num = jdbcTemplate.queryForObject(sql, Long.class, recordId);
+        if (num > 0) {
+            flag = false;
+        }
+        return flag;
+    }
 }

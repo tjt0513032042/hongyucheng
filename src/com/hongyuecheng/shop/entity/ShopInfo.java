@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by admin on 2017/11/14.
  */
-public class ShopInfo implements Serializable{
+public class ShopInfo implements Serializable {
 
     private String sNo;
     private String floor;
@@ -159,7 +159,7 @@ public class ShopInfo implements Serializable{
         this.floor = floor;
     }
 
-    public static RowMapper<ShopInfo> getDefaultRowHander(){
+    public static RowMapper<ShopInfo> getDefaultRowHander() {
         return new RowMapper<ShopInfo>() {
             @Override
             public ShopInfo mapRow(ResultSet resultSet, int i) throws SQLException {

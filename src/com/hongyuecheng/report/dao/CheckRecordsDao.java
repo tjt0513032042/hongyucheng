@@ -72,4 +72,13 @@ public class CheckRecordsDao {
         }
         return null;
     }
+
+    public CheckRecords getCheckRecords(String date, Integer shopId, Integer recordType) {
+        String sql = "SELECT * FROM check_records WHERE check_date >= '" + date + " 00:00:00' AND check_date <= '" + date + " 23:59:59' AND shop_id = ? AND record_type = ?";
+        List<CheckRecords> list = jdbcTemplate.query(sql, new Object[]{shopId, recordType}, CheckRecords.getDefaultRowHandler());
+        if (CollectionUtils.isNotEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
+    }
 }

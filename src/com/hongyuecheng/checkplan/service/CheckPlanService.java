@@ -94,7 +94,7 @@ public class CheckPlanService {
         return checkPlanDao.modifyCheckPlan(checkPlan);
     }
 
-    public CheckPlan getPlanByDateAndShop(Date date, Integer shopId){
+    public CheckPlan getPlanByDateAndShop(Date date, Integer shopId) {
         if (null == date) {
             return null;
         }

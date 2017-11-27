@@ -18,8 +18,8 @@ public class ReportService {
     @Autowired
     private ReportDao reportDao;
 
-    
-    public void queryReoprt(Date start, Date end, String shopName,Page<Object> page) {
-    	reportDao.queryReoprt(start, end, shopName,page);
+
+    public void queryReoprt(Date start, Date end, String shopName, Page<Object> page) {
+        reportDao.queryReoprt(start, end, shopName, page);
     }
 }

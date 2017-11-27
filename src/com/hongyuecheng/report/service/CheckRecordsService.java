@@ -6,6 +6,7 @@ import com.hongyuecheng.report.dao.CheckRecordsDao;
 import com.hongyuecheng.report.entity.CheckRecords;
 import com.hongyuecheng.shop.service.ShopInfoService;
 import com.hongyuecheng.user.service.UserService;
+import com.hongyuecheng.utils.DateUtil;
 import com.hongyuecheng.utils.Page;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,22 @@ public class CheckRecordsService {
         } else {
             records.setCheckFlag(false);
         }
+    }
+
+    /**
+     * 查询指定时间指定商家的开店/闭店表
+     *
+     * @param date
+     * @param shopId
+     * @param recordType
+     * @return
+     */
+    public CheckRecords getCheckRecords(String date, Integer shopId, Integer recordType) {
+        CheckRecords records = checkRecordsDao.getCheckRecords(date, shopId, recordType);
+        initCheckRecords(records);
+        if (null != records) {
+            records.setCheckDateStr(DateUtil.format(records.getCheckDate()));
+        }
+        return records;
     }
 }

@@ -26,7 +26,7 @@ public class DeviceDao {
         return jdbcTemplate.query(sql, DeviceInfo.getDefaultRowHandler());
     }
 
-    public List<DeviceInfo> getAllDevices(){
+    public List<DeviceInfo> getAllDevices() {
         String sql = "select * from device_info order by device_type, device_id";
         return jdbcTemplate.query(sql, DeviceInfo.getDefaultRowHandler());
     }

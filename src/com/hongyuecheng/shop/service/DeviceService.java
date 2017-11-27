@@ -16,7 +16,7 @@ public class DeviceService {
     @Autowired
     private DeviceDao deviceDao;
 
-    public List<DeviceInfo> getAllDevices(){
+    public List<DeviceInfo> getAllDevices() {
         return deviceDao.getAllDevices();
     }
 }

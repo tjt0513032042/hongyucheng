@@ -15,6 +15,7 @@ public class DateUtil {
     public static String FORMAT_TYPE_DEFAUL = "yyyy-MM-dd HH:mm:ss";
     public static String FORMAT_TYPE_1 = "yyyy-MM-dd";
     public static String FORMAT_TYPE_2 = "HH:mm:ss";
+    public static String FORMAT_TYPE_3 = "yyyy-MM";
 
     public static Date parse(String date, String formatType) {
         if (StringUtils.isEmpty(date)) {
@@ -72,5 +73,22 @@ public class DateUtil {
         } catch (Exception e) {
         }
         return "";
+    }
+
+    /**
+     * 获取指定月的所有天数
+     *
+     * @param date
+     * @return
+     */
+    public static int getDaysOfMonth(String date) {
+        String[] temp = date.split("-");
+        int year = Integer.parseInt(temp[0]);
+        int month = Integer.parseInt(temp[1]);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(year,month - 1,1);
+        int last = cal.getActualMaximum(Calendar.DATE);
+        return last;
     }
 }

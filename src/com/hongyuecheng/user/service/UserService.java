@@ -28,7 +28,7 @@ public class UserService {
         return userDao.getUserByNameAndPassword(name, password);
     }
 
-    public User getUserByName(String name){
+    public User getUserByName(String name) {
         return userDao.getUserByName(name);
     }
 

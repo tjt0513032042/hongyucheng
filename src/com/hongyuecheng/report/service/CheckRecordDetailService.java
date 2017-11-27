@@ -19,4 +19,8 @@ public class CheckRecordDetailService {
     public List<CheckRecordDetail> getDetailsByRecordId(Integer recordId) {
         return checkRecordDetailDao.getDetailsByRecordId(recordId);
     }
+
+    public boolean getRecordStatus(Integer recordId) {
+        return checkRecordDetailDao.getRecordStatus(recordId);
+    }
 }

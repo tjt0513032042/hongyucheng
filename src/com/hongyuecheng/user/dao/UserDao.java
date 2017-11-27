@@ -22,7 +22,7 @@ public class UserDao {
     private JdbcTemplate jdbcTemplate;
 
     public User getUserById(Integer id) {
-        String sql = "select * from user_info where id = ? and active = 'Y'";
+        String sql = "select * from user_info where id = ?";
         List<User> list = jdbcTemplate.query(sql, new Object[]{id}, User.getDefaultRowHander());
         if (!CollectionUtils.isEmpty(list)) {
             return list.get(0);
