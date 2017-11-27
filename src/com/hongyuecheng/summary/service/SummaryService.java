@@ -42,7 +42,15 @@ public class SummaryService {
         // 根据月份查询出该月所有的天数
         int days = DateUtil.getDaysOfMonth(date);
         for (int i = 1; i <= days; i++) {
-            String checkDate = date + "-" + i;
+            String checkDate = date + "-";
+            if (i < 10) {
+                checkDate += '0';
+            }
+            checkDate += i;
+
+            if(i == 22){
+                System.out.println("22");
+            }
 
             SummaryBean summaryBean = new SummaryBean();
             summaryBean.setCheckDate(checkDate);
@@ -58,7 +66,7 @@ public class SummaryService {
                 summaryBean.setOpenFlag(checkRecordDetailService.getRecordStatus(summaryBean.getOpenRecord().getRecordId()));
             }
             summaryBean.setCloseRecord(checkRecordsService.getCheckRecords(checkDate, shopId, Constants.CHECK_RECORD_TYPE_CLOSE));
-            if (null != summaryBean.getOpenRecord()) {
+            if (null != summaryBean.getCloseRecord()) {
                 summaryBean.setCloseFlag(checkRecordDetailService.getRecordStatus(summaryBean.getCloseRecord().getRecordId()));
             }
             result.add(summaryBean);

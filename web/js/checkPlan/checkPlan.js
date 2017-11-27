@@ -78,7 +78,7 @@ function initContent() {
 function registerFunc() {
     $('table a.viewresult').on('click', function () {
         var infoId = $(this).closest('tr').attr('infoId');
-        var info = getInfo(infoId);
+        var info = getCheckPlanInfo(infoId);
         if (!info || null == info) {
             layer.msg('抽查计划不存在，无法执行该操作!');
             return;
@@ -87,7 +87,7 @@ function registerFunc() {
     });
     $('table a.modify').on('click', function () {
         var infoId = $(this).closest('tr').attr('infoId');
-        var info = getInfo(infoId);
+        var info = getCheckPlanInfo(infoId);
         if (!info || null == info) {
             layer.msg('抽查计划不存在，无法执行该操作!');
             return;
@@ -383,88 +383,6 @@ function getShopIds(shops) {
 }
 
 /**
- * 选择商家
- * @param input
- */
-function chooseShop(input) {
-    var shops = getShopsByName('');
-    var html = [
-        '<div class="tools" style="margin: 5px 0px 5px 0px !important;">',
-        '<form id="searchForm">',
-        '<ul class="toolbar">',
-        '<li style="border: 0px !important;">',
-        '<label>商店名称</label>&nbsp;<input type="text" name="shopName" class="dfinput" style="width:235px !important;">',
-        '</li>',
-        '<li name="searchButton"><span style="margin-top: 2px !important;"><img src="' + getRoot() + '/images/ico06.png"/></span>查询</li>',
-        '</ul>',
-        '</form>',
-        '<br><br><br>',
-        '</div>',
-        '<table class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">',
-        '<thead>',
-        '<th><input type="checkbox" class="allcheck"/></th>',
-        '<th>商店类别</th>',
-        '<th>商店名称</th>',
-        '</thead>',
-        '<tbody>',
-        createShopHtml(shops),
-        '</tbody></table>'
-    ];
-
-    var layerIndex = layer.open({
-        title: '商店选择',
-        type: 1,
-        shadeClose: false,
-        closeBtn: 0,
-        area: ['400px', '600px'],
-        btn: ['确定', '取消'],
-        content: html.join(''),
-        success: function (dom) {
-            $(dom).find('div.layui-layer-content').attr('style', $(dom).find('div.layui-layer-content').attr('style') + 'padding-left: 5px; padding-right: 5px;');
-            $(dom).find('li[name=searchButton]').on('click', function () {
-                var shopName = $(dom).find('div.tools input[name=shopName]').val();
-                $(dom).find('table > tbody').empty();
-                $(dom).find('table > tbody').append(createShopHtml(getShopsByName(shopName)));
-            });
-        },
-        btn1: function (index, dom) {
-            var inputs = $(dom).find('input.itemcheck:checked');
-            if (inputs.length > 1) {
-                layer.msg('每次只能选择一个商家添加到抽查计划中!');
-                return;
-            }
-            $(input).attr('shopId', $(inputs[0]).attr('shopId'));
-            $(input).val($(inputs[0]).attr('shopName'));
-            layer.close(layerIndex);
-        }
-    });
-}
-
-function getShopsByName(shopName) {
-    var url = getRoot() + '/shop/getShopInfoByName.do';
-    var param = {shopName: shopName};
-    var shops = null;
-    sendAjax(url, param, function (callback) {
-        shops = callback;
-    }, false);
-    return shops;
-}
-
-function createShopHtml(shops) {
-    var html = [];
-    if (shops && shops.length > 0) {
-        $.each(shops, function (i, shop) {
-            html.push('<tr class="infotr">');
-            html.push('<td><input type="checkbox" class="itemcheck" shopId="' + shop.shopId + '" shopName="' + shop.shopName + '"/></td>');
-            html.push('<td>' + transFormShopType(shop.shopType) + '</td>');
-            html.push('<td>' + shop.shopName + '</td>');
-            html.push('</tr>');
-        });
-    }
-    return html.join('');
-}
-
-/**
  * 进入修改界面
  * @param info
  */
@@ -525,18 +443,6 @@ function toModify(info) {
     });
 }
 
-function getInfo(infoId) {
-    var url = getRoot() + '/checkPlan/getCheckPlan.do';
-    var params = {'planId': infoId};
-    var info = null;
-    sendAjax(url, params, function (callback) {
-        if (callback) {
-            info = callback;
-        }
-    }, false);
-    return info;
-}
-
 function addShopInput(addButton) {
     var table = $(addButton).closest('tr').find('table.shoptable');
     var htmlContent = [];
@@ -555,90 +461,4 @@ function addShopInput(addButton) {
     $(table).find('tr:last a.deleteitem').on('click', function () {
         $(this).closest('tr').remove();
     });
-}
-
-function showCheckResult(planInfo) {
-    var layerIndex = layer.open({
-        title: false,
-        type: 1,
-        shadeClose: false,
-        closeBtn: true,
-        area: ['500px', '800px'],
-        content: getCheckResultHtml(planInfo),
-        success: function (dom) {
-            $(dom).find('select[name=checkShop]').on('change', function () {
-                var shopId = $(this).val();
-                var checkresult = getCheckResult(planInfo.planId, shopId);
-                // 清空上次显示内容
-                $(dom).find('table tr.contentDatas').remove();
-                if (!checkresult || null == checkresult) {
-                    layer.msg('该商家无抽查结果可展现!');
-                    return;
-                }
-                var html = [];
-                html.push('<tr class="contentDatas" style="border: solid 1px #cbcbcb;">');
-                html.push('<td class="datetd" width="30%">');
-                html.push('结果描述:');
-                html.push('</td>');
-                html.push('<td width="70%">');
-                html.push('<textarea style="width: 100%; height: 100px; resize:none; overflow: auto; float: left;" readonly="readonly">' + checkresult.description + '</textarea>');
-                html.push('</td>');
-                html.push('</tr>');
-                html.push('<tr class="contentDatas" style="border: solid 1px #cbcbcb;">');
-                html.push('<td class="datetd" width="30%">');
-                html.push('上传照片:');
-                html.push('</td>');
-                html.push('<td>');
-                if (checkresult.imageNames && checkresult.imageNames.length > 0) {
-                    var images = checkresult.imageNames.split(';');
-                    $.each(images, function (i, imageName){
-                        var url = getRoot() + '/check_result_images/' + imageName;
-                        html.push('<image src="' + url + '" style="max-width: 280px; display: block;"></image>');
-                    });
-                }
-                html.push('</td>');
-                html.push('</tr>');
-
-                $(dom).find('table tbody').append(html.join(''));
-            });
-            $(dom).find('select[name=checkShop]').trigger('change');
-        }
-    });
-}
-
-function getCheckResultHtml(info) {
-    var shopoption = [];
-    if (info.shopList && info.shopList.length > 0) {
-        $.each(info.shopList, function (i, shop) {
-            shopoption.push('<option value="' + shop.shopId + '">' + shop.shopName + '</option>');
-        });
-    }
-    var html = [
-        '<form>',
-        '<div class="formbody">',
-        '<div class="formtitle"><span>抽查结果</span></div>',
-        '</div>',
-        '<table name="checkPlanTable" class="tablelist dataTable table table-border table-bordered table-bg table-hover table-sort">',
-        '<tbody style="max-height: 520px; overflow-x: hidden; overflow-y: auto;">'
-    ];
-    html.push('<tr style="border: solid 1px #cbcbcb;">');
-    html.push('<td class="datetd" width="30%">');
-    html.push('商家选择:');
-    html.push('</td>');
-    html.push('<td>');
-    html.push('<select name="checkShop" class="dfinput" style="width: 100%; float: left;">');
-    html.push(shopoption.join(''));
-    html.push('</select></td></tr>');
-    html.push('</tbody></table></form>');
-    return html.join('');
-}
-
-function getCheckResult(planId, shopId) {
-    var url = getRoot() + '/checkResult/getCheckResult.do';
-    var params = {planId: planId, shopId: shopId};
-    var data = null;
-    sendAjax(url, params, function (callback) {
-        data = callback;
-    }, false);
-    return data;
 }

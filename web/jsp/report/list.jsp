@@ -5,13 +5,14 @@
     <title>Report</title>
 </head>
 <script type="text/javascript" src="<%=basePath%>/js/report/checkRecords.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/report/reportUtils.js"></script>
 <body>
 <div class="rightinfo">
 
     <div class="tools">
         <form id="searchForm">
             <ul class="toolbar">
-                <li style="border: 0px !important; background: url();">
+                <li style="border: 0px !important;">
                     <label>商家名称</label>&nbsp;<input type="text" name="shopName" class="dfinput">
                     <label>填写日期</label>&nbsp;<input type="text" name="start" class="dfinput" style="width: 211px !important;" readonly="readonly">~<input type="text" name="end" class="dfinput" style="width: 211px !important;" readonly="readonly">
                 </li>

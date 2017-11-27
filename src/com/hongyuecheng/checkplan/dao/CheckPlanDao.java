@@ -111,7 +111,7 @@ public class CheckPlanDao {
     }
 
     public CheckPlan getPlanByDateAndShop(Date date, Integer shopId) {
-        String sql = "select * from check_plan where check_date = ? and concat(',', shop_ids, ',') like '%, " + shopId + " ,%'";
+        String sql = "select * from check_plan where check_date = ? and concat(',', shop_ids, ',') like '%," + shopId + ",%'";
         List<CheckPlan> plans = jdbcTemplate.query(sql, new Object[]{date}, CheckPlan.getDefaultRowHander());
         if (CollectionUtils.isNotEmpty(plans)) {
             return plans.get(0);
