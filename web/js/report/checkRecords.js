@@ -95,7 +95,7 @@ function createListHtml(datas) {
             htmlContent.push('<td>');
             htmlContent.push('<a href="#" class="tablelink view">查看</a>');
             if (data.checkFlag) {
-                htmlContent.push('&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink viewResult">抽查结果</a>');
+                htmlContent.push('&nbsp;&nbsp;&nbsp;<a href="#" planId="' + data.planId + '" shopId="' + data.shopId + '" class="tablelink viewResult">抽查结果</a>');
             }
             htmlContent.push('</td>');
             htmlContent.push('</tr>')
@@ -112,8 +112,14 @@ function registerFunc() {
     });
     // 查看抽查结果
     $('#userInfoList a.viewResult').on('click', function () {
-        var recordId = $(this).closest('tr').attr('infoId');
-        // TODO
+        var planId = $(this).attr('planId');
+        var shopId = $(this).attr('shopId');
+        var info = getCheckPlanInfo(planId);
+        if (!info || null == info) {
+            layer.msg('抽查计划不存在，无法执行该操作!');
+            return;
+        }
+        showCheckResult(info, parseInt(shopId));
     });
 }
 

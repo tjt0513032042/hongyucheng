@@ -3,7 +3,6 @@ package com.hongyuecheng.summary.service;
 import com.hongyuecheng.checkplan.service.CheckPlanService;
 import com.hongyuecheng.checkplan.service.CheckResultService;
 import com.hongyuecheng.common.Constants;
-import com.hongyuecheng.report.entity.CheckRecords;
 import com.hongyuecheng.report.service.CheckRecordDetailService;
 import com.hongyuecheng.report.service.CheckRecordsService;
 import com.hongyuecheng.shop.entity.ShopInfo;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,10 +44,6 @@ public class SummaryService {
                 checkDate += '0';
             }
             checkDate += i;
-
-            if(i == 22){
-                System.out.println("22");
-            }
 
             SummaryBean summaryBean = new SummaryBean();
             summaryBean.setCheckDate(checkDate);

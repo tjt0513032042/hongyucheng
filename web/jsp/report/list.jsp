@@ -6,6 +6,7 @@
 </head>
 <script type="text/javascript" src="<%=basePath%>/js/report/checkRecords.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/report/reportUtils.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/checkPlan/checkPlanUtil.js"></script>
 <body>
 <div class="rightinfo">
 

@@ -62,7 +62,7 @@ public class CheckRecordsService {
         records.setShopInfo(shopInfoService.getShopInfo(records.getShopId()));
         records.setDetails(checkRecordDetailService.getDetailsByRecordId(records.getRecordId()));
         // 获取抽查结果情况
-        CheckPlan checkPlan = checkPlanService.getPlanByDateAndShop(records.getCheckDate(), records.getShopId());
+        CheckPlan checkPlan = checkPlanService.getPlanByDateAndShop(DateUtil.parse(DateUtil.format(records.getCheckDate(), DateUtil.FORMAT_TYPE_1), DateUtil.FORMAT_TYPE_1), records.getShopId());
         if (null != checkPlan) {
             records.setCheckFlag(true);
             records.setPlanId(checkPlan.getPlanId());
