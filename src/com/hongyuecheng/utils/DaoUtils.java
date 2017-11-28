@@ -55,12 +55,7 @@ public class DaoUtils {
         if (StringUtils.isEmpty(sql) || null == page || null == rowMapper) {
             return null;
         }
-        int start = page.getPageNo() * page.getPageSize();
-        // 防止超过最大页数
-        if (start > page.getTotal()) {
-            page.setPageNo(1);
-            start = 0;
-        }
+        int start = getStart(page);
         sql += " LIMIT " + start + "," + page.getPageSize();
         List result = jdbcTemplate.query(sql, rowMapper);
         page.setResult(result);
@@ -84,15 +79,20 @@ public class DaoUtils {
         if (StringUtils.isEmpty(sql) || null == page || null == rowMapper) {
             return null;
         }
-        int start = page.getPageNo() * page.getPageSize();
-        // 防止超过最大页数
-        if (start > page.getTotal()) {
-            page.setPageNo(1);
-            start = 0;
-        }
+        int start = getStart(page);
         sql += " LIMIT " + start + "," + page.getPageSize();
         List result = jdbcTemplate.query(sql, params, rowMapper);
         page.setResult(result);
         return result;
+    }
+
+    private static int getStart(Page page) {
+        int start = page.getPageNo() * page.getPageSize();
+        // 防止超过最大页数
+        if (start > page.getTotal()) {
+            page.setPageNo(0);
+            start = 0;
+        }
+        return start;
     }
 }

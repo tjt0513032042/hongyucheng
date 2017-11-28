@@ -44,4 +44,17 @@ public class SummaryController {
         }
         return page;
     }
+
+    @RequestMapping(value = "/queryDayList", method = RequestMethod.POST)
+    @ResponseBody
+    public Page queryDayList(String date, Page page) {
+        if (null == page) {
+            page = new Page();
+        }
+        Date day = DateUtil.parse(date, DateUtil.FORMAT_TYPE_1);
+        if (null != day) {
+            summaryService.queryDayList(date, page);
+        }
+        return page;
+    }
 }
