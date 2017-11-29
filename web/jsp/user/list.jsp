@@ -12,6 +12,7 @@
     <title>userlist</title>
 </head>
 <script type="text/javascript" src="<%=basePath%>/js/user/user.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/shop/shopUtil.js"></script>
 <body>
 <div class="rightinfo">
 

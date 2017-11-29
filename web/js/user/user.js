@@ -29,7 +29,6 @@ function searchList(name, phone, pageNo, pageSize) {
             var htmlContent = [];
             if (datas && datas.length > 0) {
                 $.each(datas, function (i, data) {
-                    console.log(i);
                     if (i > 0 && i % 2 == 1) {
                         htmlContent.push('<tr class="contentDatas odd" userId="' + data.id + '">');
                     } else {
@@ -155,16 +154,20 @@ function toSaveUserInfo(userInfo) {
                 var role = $(this).val();
                 // 仅在角色为店家的时候，才显示商店选择选项
                 if (role == 1) {
-                    $(dom).find('select[name=shopId]').closest('li').show();
+                    $(dom).find('input[name=shopId]').closest('li').show();
                 } else {
-                    $(dom).find('select[name=shopId]').closest('li').hide();
+                    $(dom).find('input[name=shopId]').closest('li').hide();
                 }
             });
             $(dom).find('select[name=role]').trigger('change');
+            $(dom).find('input[name=shopId]').on('click', function(){
+                chooseShop(this);
+            });
         },
         btn1: function (index, dom) {
             if ($(dom).find('form').valid()) {
-                var params = $(dom).find('form').serialize();
+                var params = paramString2obj($(dom).find('form'));
+                params.shopId = $(dom).find('input[name=shopId]').attr('shopId');
                 var url = getRoot() + '/user/saveUserInfo.do';
                 sendAjax(url, params, function (callback) {
                     if (callback) {
@@ -203,7 +206,7 @@ function getUserInfoHtml(userInfo) {
             '<option value="2" ' + (userInfo.role == 2 ? 'selected' : '') + '>工作人员</option>',
             '</select></li>',
             '<li><label><span style="display: inline;color: red;">*</span>手机号码</label><input name="phone" type="text" class="dfinput" value="' + userInfo.phone + '" maxlength="11"></li>',
-            '<li><label>所属店家</label>' + getShopSelect(userInfo) + '</li>',
+            '<li><label>所属店家</label><input name="shopId" type="text" class="dfinput" readonly="readonly" value="' + (null == userInfo.shop ? '' : userInfo.shop.shopName) + '"></li>',
             '<li><label><span style="display: inline;color: red;">*</span>登录密码</label><input name="password" type="password" class="dfinput" value="' + userInfo.password + '" maxlength="11"></li>',
             '</ul>',
             '</div>',
@@ -223,7 +226,7 @@ function getUserInfoHtml(userInfo) {
             '<option value="2">工作人员</option>',
             '</select></li>',
             '<li><label><span style="display: inline;color: red;">*</span>手机号码</label><input name="phone" type="text" class="dfinput" maxlength="11"></li>',
-            '<li><label>所属店家</label>' + getShopSelect() + '</li>',
+            '<li><label>所属店家</label><input name="shopId" type="text" class="dfinput" readonly="readonly"></li>',
             '</ul>',
             '</div>',
             '</form>'

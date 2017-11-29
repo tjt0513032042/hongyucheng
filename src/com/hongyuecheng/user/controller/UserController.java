@@ -1,5 +1,6 @@
 package com.hongyuecheng.user.controller;
 
+import com.hongyuecheng.shop.service.ShopInfoService;
 import com.hongyuecheng.user.entity.User;
 import com.hongyuecheng.user.service.UserService;
 import com.hongyuecheng.utils.Page;
@@ -21,6 +22,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ShopInfoService shopInfoService;
 
     @RequestMapping("/list")
     public String list() {
@@ -44,6 +47,9 @@ public class UserController {
             return null;
         }
         User user = userService.getUserById(id);
+        if(null != user.getShopId()){
+            user.setShop(shopInfoService.getShopInfo(user.getShopId()));
+        }
         return user;
     }
 

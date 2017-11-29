@@ -1,5 +1,6 @@
 package com.hongyuecheng.user.entity;
 
+import com.hongyuecheng.shop.entity.ShopInfo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.Serializable;
@@ -19,6 +20,8 @@ public class User implements Serializable {
     private String password;
     private Integer shopId;
     private String active;
+
+    private ShopInfo shop;
 
     public Integer getId() {
         return id;
@@ -74,6 +77,14 @@ public class User implements Serializable {
 
     public void setActive(String active) {
         this.active = active;
+    }
+
+    public ShopInfo getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopInfo shop) {
+        this.shop = shop;
     }
 
     public static RowMapper<User> getDefaultRowHander() {
