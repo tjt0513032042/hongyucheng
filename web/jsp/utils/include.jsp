@@ -1,12 +1,19 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@ page import="java.net.URLDecoder" %>
+<%@ page import="com.hongyuecheng.user.entity.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-    basePath= URLDecoder.decode(path,"utf-8");
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+    basePath = URLDecoder.decode(path, "utf-8");
+
+    User user = null;
+    Object obj = request.getSession().getAttribute("user");
+    if (null != obj) {
+        user = (User) obj;
+    }
 %>
 <script>
     var pageSize = 15;
@@ -29,6 +36,11 @@
 <link type="text/css" href="<%=basePath%>/js/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
 
 <script>
+    var userInfo = <%=user%>;
+    if (null == userInfo) {
+        window.location.href = getRoot() + '/login/toLogin.do';
+    }
+
     $.extend($.validator.messages, {
         required: "该内容不能为空",
         remote: "请修正该字段",
@@ -50,7 +62,7 @@
     });
     $.extend($.validator.showErrors, function (errorMap, errorList) {
         $.each(errorList, function (i, v) {
-            layer.tips(v.message, v.element, { time: 2000 });
+            layer.tips(v.message, v.element, {time: 2000});
             return false;
         });
     });

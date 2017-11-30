@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by admin on 2017/11/8.
  */
@@ -31,7 +33,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     @ResponseBody
-    public Object authUser(String userName, String password) {
+    public Object authUser(String userName, String password, HttpServletRequest request) {
         User user = userService.getUserByNameAndPassword(userName, password);
 
         if (null != user) {
@@ -42,9 +44,16 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String main(User user, ModelAndView mv) {
+    public String main(User user, ModelAndView mv, HttpServletRequest request) {
         user = userService.getUserById(user.getId());
+        request.getSession().setAttribute("user", user);
         mv.addObject("userInfo", user);
         return "auth/main";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public void logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
     }
 }

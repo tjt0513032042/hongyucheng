@@ -8,10 +8,10 @@
 </head>
 <script>
     $(document).ready(function () {
-        var userInfo = $(parent.window).data('userInfo');
-        $('span.userNameSpan').html($('#hiddenUserId', parent.document).val());
         $('#logout').on('click', function () {
             parent.window.location.href = getRoot() + '/login/toLogin.do';
+            var url = getRoot() + '/login/logout.do';
+            sendAjax(url, {});
         });
     });
 </script>
@@ -28,7 +28,7 @@
     </ul>
 
     <div class="user">
-        <span class="userNameSpan">${currentUserName}</span>
+        <span class="userNameSpan">${user.name}</span>
         <i>消息</i>
         <b>5</b>
     </div>
