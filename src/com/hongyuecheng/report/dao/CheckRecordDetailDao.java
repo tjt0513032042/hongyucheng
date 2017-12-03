@@ -34,4 +34,14 @@ public class CheckRecordDetailDao {
         }
         return flag;
     }
+    
+    public int addCheckRecordDetail(Integer recordId,String optionCode,Integer optionResult) {
+        String sql = "insert into check_record_detail (record_id, option_code, option_result) values (?, ?, ?)";
+        return jdbcTemplate.update(sql, recordId, optionCode, optionResult);
+    }
+    
+    public int updateCheckRecordDetail(CheckRecordDetail checkRecordDetail) {
+        String sql = "UPDATE check_record_detail SET option_result = ? WHERE record_id = ? AND option_code = ?";
+        return jdbcTemplate.update(sql, checkRecordDetail.getOptionResult(), checkRecordDetail.getRecordId(), checkRecordDetail.getOptionCode());
+    }
 }

@@ -1,14 +1,14 @@
 package com.hongyuecheng.shop.service;
 
-import com.hongyuecheng.shop.dao.ShopInfoDao;
-import com.hongyuecheng.shop.entity.ShopInfo;
-import com.hongyuecheng.utils.Page;
-import com.hongyuecheng.utils.ReturnValue;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.hongyuecheng.shop.dao.ShopInfoDao;
+import com.hongyuecheng.shop.entity.ShopInfo;
+import com.hongyuecheng.utils.Page;
 
 /**
  * Created by admin on 2017/11/14.
@@ -45,6 +45,9 @@ public class ShopInfoService {
 
     public List<ShopInfo> getShopInfoRandom(int count) {
         return shopInfoDao.getShopInfoRandom(count);
+    }
+    public List<ShopInfo> getShopInfos(String shopIds) {
+        return shopInfoDao.getShopInfos(shopIds);
     }
 
     public String getShopIds(List<ShopInfo> shopInfos) {

@@ -8,15 +8,15 @@ public class Constants {
     /**
      * 人员类型:管理员
      */
-    public static final Integer USER_TYPE_ADMIN = 1;
+    public static final Integer USER_TYPE_ADMIN = 0;
     /**
      * 人员类型:店长
      */
-    public static final Integer USER_TYPE_SHOP_MANAGER = 2;
+    public static final Integer USER_TYPE_SHOP_MANAGER = 1;
     /**
-     * 人员类型:员工
+     * 人员类型:工作人员
      */
-    public static final Integer USER_TYPE_EMPLOYEE = 3;
+    public static final Integer USER_TYPE_EMPLOYEE = 2;
 
     /**
      * 店铺类型:餐饮
@@ -47,6 +47,15 @@ public class Constants {
      * 检查类型:闭店表
      */
     public static final Integer CHECK_RECORD_TYPE_CLOSE = 1;
+
+    /**
+     * 检查项:常规
+     */
+    public static final Integer CHECK_OPTION_TYPE_NORMAL = 0;
+    /**
+     * 检查项:专项
+     */
+    public static final Integer CHECK_OPTION_TYPE_UNNORMAL = 1;
 
     /**
      * git test

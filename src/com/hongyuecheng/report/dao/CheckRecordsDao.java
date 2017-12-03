@@ -3,6 +3,7 @@ package com.hongyuecheng.report.dao;
 import com.hongyuecheng.report.entity.CheckRecords;
 import com.hongyuecheng.shop.dao.ShopInfoDao;
 import com.hongyuecheng.shop.entity.ShopInfo;
+import com.hongyuecheng.user.entity.User;
 import com.hongyuecheng.utils.DaoUtils;
 import com.hongyuecheng.utils.Page;
 import org.apache.commons.collections.CollectionUtils;
@@ -72,6 +73,7 @@ public class CheckRecordsDao {
         }
         return null;
     }
+    
 
     public CheckRecords getCheckRecords(String date, Integer shopId, Integer recordType) {
         String sql = "SELECT * FROM check_records WHERE check_date >= '" + date + " 00:00:00' AND check_date <= '" + date + " 23:59:59' AND shop_id = ? AND record_type = ?";
@@ -80,5 +82,11 @@ public class CheckRecordsDao {
             return list.get(0);
         }
         return null;
+    }
+    
+    
+    public int addCheckRecords(Integer shopId,String checkDate,Integer userId,Integer recordType) {
+        String sql = "insert into check_records (shop_id, check_date, user_id, record_type) values (?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, shopId, checkDate, userId, recordType);
     }
 }

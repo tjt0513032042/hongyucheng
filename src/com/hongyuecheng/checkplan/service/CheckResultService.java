@@ -17,4 +17,17 @@ public class CheckResultService {
     public CheckResult getCheckResult(Integer planId, Integer shopId) {
         return checkResultDao.getCheckResult(planId, shopId);
     }
+    
+    
+    public int addCheckResult(CheckResult checkResult)  {
+        return checkResultDao.add(checkResult);
+    }
+    
+    public int updateCheckResult(CheckResult checkResult)  {
+    	if(null != getCheckResult(checkResult.getPlanId(), checkResult.getShopId())){
+    		return checkResultDao.update(checkResult);
+    	}else{
+    		return checkResultDao.add(checkResult);
+    	}
+    }
 }

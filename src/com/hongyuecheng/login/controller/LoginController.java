@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by admin on 2017/11/8.
@@ -33,10 +34,11 @@ public class LoginController {
      */
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     @ResponseBody
-    public Object authUser(String userName, String password, HttpServletRequest request) {
+    public Object authUser(String userName, String password,HttpSession session) {
         User user = userService.getUserByNameAndPassword(userName, password);
 
         if (null != user) {
+            session.setAttribute("user", user);
             return user;
         } else {
             return false;
