@@ -128,7 +128,7 @@ function sendAjax(url, params, callbackfunction, async, contentType) {
     <div data-role="footer" style="text-align: center"  data-position="fixed">
         <p>© 2017 WONDER CITY. All Rights Reserved.</p>
     </div>
-    <form id="mainForm" action="" method="post">
+    <form id="mainForm" action="" method="get">
         <input name="id" type="hidden">
     </form>
 </div>

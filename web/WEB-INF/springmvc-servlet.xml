@@ -47,4 +47,24 @@
         </property>
     </bean>
     <bean id="dateConvert" class="com.hongyuecheng.utils.StringToDateCover"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 需拦截的地址 -->
+            <!-- 一级目录 -->
+            <mvc:mapping path="/*.do" />
+            <mvc:mapping path="/*.ajax" />
+            <mvc:mapping path="/*.htm" />
+
+            <!-- 二级目录 -->
+            <mvc:mapping path="/*/*.do" />
+            <mvc:mapping path="/*/*.ajax" />
+            <mvc:mapping path="/*/*.htm" />
+            <!-- 需排除拦截的地址 -->
+            <mvc:exclude-mapping path="/login/toLogin.do"/>
+            <mvc:exclude-mapping path="/login/auth.do"/>
+            <mvc:exclude-mapping path="/mobile/login.do"/>
+            <bean class="com.hongyuecheng.interceptor.RequestInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

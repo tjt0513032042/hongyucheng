@@ -45,11 +45,11 @@ public class LoginController {
         }
     }
 
-    @RequestMapping(value = "/main", method = RequestMethod.POST)
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(User user, ModelAndView mv, HttpServletRequest request) {
-        user = userService.getUserById(user.getId());
-        request.getSession().setAttribute("user", user);
-        mv.addObject("userInfo", user);
+//        user = userService.getUserById(user.getId());
+//        request.getSession().setAttribute("user", user);
+//        mv.addObject("userInfo", user);
         return "auth/main";
     }
 

@@ -168,7 +168,7 @@ public class MobileController {
         return ret;
     }*/
 
-    @RequestMapping(value = "/mobileMain", method = RequestMethod.POST)
+    @RequestMapping(value = "/mobileMain", method = RequestMethod.GET)
     public String mobileMain(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (null != user) {
