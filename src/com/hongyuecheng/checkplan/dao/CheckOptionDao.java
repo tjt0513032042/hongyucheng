@@ -27,7 +27,7 @@ public class CheckOptionDao {
     public List<CheckRecordDetail> getCheckRecordDetailByType(Integer checkType, Integer optionType) {
     	//0:是，1:否
     	if(null != optionType){
-    		String sql = "select '' RECORD_ID,OPTION_CODE,1 OPTION_RESULT from check_option_info where check_type = ? and option_type = ? order by check_type, option_type, option_sort";
+    		String sql = "select '' RECORD_ID,OPTION_CODE,OPTION_NAME,1 OPTION_RESULT from check_option_info where check_type = ? and option_type = ? order by check_type, option_type, option_sort";
     		return jdbcTemplate.query(sql, new Object[]{checkType, optionType}, CheckRecordDetail.getDefaultRowHandler());
     	}else{
     		String sql = "select '' RECORD_ID,OPTION_CODE,OPTION_NAME,1 OPTION_RESULT from check_option_info where check_type = ? order by check_type, option_type, option_sort";

@@ -1,16 +1,20 @@
 package com.hongyuecheng.checkplan.entity;
 
-import org.springframework.jdbc.core.RowMapper;
-
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
 
 /**
  * Created by admin on 2017/11/16.
  */
 public class CheckResult implements Serializable {
-    private Integer planId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2919433866528372609L;
+	private Integer planId;
     private Integer shopId;
     private Integer status;
     private String description;

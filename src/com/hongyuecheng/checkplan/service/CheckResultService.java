@@ -24,10 +24,6 @@ public class CheckResultService {
     }
     
     public int updateCheckResult(CheckResult checkResult)  {
-    	if(null != getCheckResult(checkResult.getPlanId(), checkResult.getShopId())){
-    		return checkResultDao.update(checkResult);
-    	}else{
-    		return checkResultDao.add(checkResult);
-    	}
+    	return checkResultDao.update(checkResult);
     }
 }

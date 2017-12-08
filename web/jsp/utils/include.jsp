@@ -36,10 +36,10 @@
 <link type="text/css" href="<%=basePath%>/js/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet"/>
 
 <script>
-    var userInfo = <%=user%>;
-    if (null == userInfo) {
-        window.location.href = getRoot() + '/login/toLogin.do';
-    }
+    <%--var userInfo = <%=user%>;--%>
+    <%--if (null == userInfo) {--%>
+        <%--window.location.href = getRoot() + '/login/toLogin.do';--%>
+    <%--}--%>
 
     $.extend($.validator.messages, {
         required: "该内容不能为空",

@@ -1,5 +1,6 @@
 package com.hongyuecheng.checkplan.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -43,12 +44,8 @@ public class CheckResultDao {
         if (null != checkResult.getStatus()) {
         	sql += "status = " + checkResult.getStatus() ;
         }
-        if (StringUtils.isNotEmpty(checkResult.getDescription())) {
-        	sql += " ,description = '" + checkResult.getDescription()+"'";
-        }
-        if (StringUtils.isNotEmpty(checkResult.getImageNames())) {
-        	sql += " ,image_names = '" + checkResult.getImageNames()+"'";
-        }
+        sql += " ,description = '" + checkResult.getDescription()+"'";
+        sql += " ,image_names = '" + checkResult.getImageNames()+"'";
         sql += " where plan_id = "+checkResult.getPlanId()+" and shop_id = ?";
         return jdbcTemplate.update(sql, checkResult.getShopId());
     }

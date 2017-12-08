@@ -32,7 +32,17 @@ $(document).on("pageinit",function(event){
          var url = getRoot() + '/mobile/saveCheckResult.do';
 
 		var formData = new FormData();
-		formData.append('imageNames', $('#imageNames')[0].files[0]);
+		var index = 0;
+		var len = $('input[name="imageNames"]').length;
+        $('input[name="imageNames"]').each(function () {
+            if ($(this).val() != '') {
+                var v_name = "imageNames_" + index;
+                formData.append(v_name, $(this)[0].files[0]);
+                index++;
+            }
+        });
+		
+		
 		formData.append('shopId', $('#shopId').val());
 		formData.append('planId', $('#planId').val()); 
 		
@@ -46,31 +56,58 @@ $(document).on("pageinit",function(event){
 			processData : false,
 			contentType : false
 		}).done(function(res) {
-			layer.msg(res);
+			 layer.msg(res);
+			 window.location.reload();
 		}).fail(function(res) {});
     });
     
     $('#shopId').on('change', function () {
+ 
     var params ={
     shopId:$('#shopId').val(),
     planId:$('#planId').val()
     }
          var url = getRoot() + '/mobile/queryCheckResult.do';
     	sendAjax(url, params, function (callbackdata) {
-        if (callbackdata) {
-            // 加载列表数据
-            var checkResult = callbackdata;
-            if(checkResult.length != 0){
-            	$('#description').val(checkResult.description);
-            	$("#status").find("option[value='"+checkResult.status+"']").attr("selected",true);
-            	$("#status").selectmenu('refresh', true);
-            }
-        }
+        refreshPage(callbackdata);
     });
     });
    searchShopList();
 });
 
+function refreshPage(checkResult){
+        if (checkResult) {
+            // 加载列表数据
+            if(checkResult.shopId){
+	           	$('#description').val(checkResult.description);
+	        	//$("#status").val(checkResult.status);
+	        	$("#status").find("option[value='"+checkResult.status+"']").attr("selected",true);
+	        	$("#status").selectmenu('refresh', true);
+	        	/* var fileName = checkResult.imageNames
+	        	alert(fileName); */
+				if(''!= checkResult.imageNames){
+					$(checkResult.imageNames.split(';')).each(function(i,v){
+						//console.log(v);
+						var fileName = v;
+					var imgUrl = '<%=basePath%>/check_result_images/'+fileName;	
+					var imgTr =	'<tr><td width="90%"><img class="image"  src="'+imgUrl+'" width="100%"/></td><td>'
+								+'<a href="javascript:void(0);" name="del"  onclick="delImage(this)"><img src="<%=basePath%>/images/authority/3_del.png"/></a>'
+								+'<input type="hidden" name="imageName" value="'+fileName+'"></td></tr>'
+		        	$('#imageTable').append(imgTr);
+					})
+				}
+            }else{
+				clearPage();
+            }
+        }
+
+}
+
+function clearPage(){
+    $('#description').val('');
+	$("#status").find("option[value='1']").attr("selected",true);
+	$("#status").selectmenu('refresh', true);
+}
 
 function searchShopList(param, pageNo, pageSize) {
 	    var params;
@@ -108,6 +145,24 @@ function getShopNamesHtml(datas) {
     	 })
     });
  $("#shopId").selectmenu('refresh', true); 
+}
+
+function delImage(tar){
+	var tr = $(tar).parent().parent().parent();
+	var v = tr.find('input:first').val();
+	var params = {
+		imageName: v,
+		planId : $('#planId').val(),
+		shopId : $('#shopId').val() 
+	};
+    var url = getRoot() + '/mobile/deleteImage.do';
+    sendAjax(url, params, function (callbackdata) {
+        if (callbackdata) {
+            $(tar).closest('tr').remove();
+        } else {
+            layer.msg('图片删除失败!');
+		}
+    });
 }
 
 /**
@@ -155,6 +210,19 @@ function sendAjax(url, params, callbackfunction, async, contentType) {
     }
     $.ajax(opts);
 	}
+function addCloneTr(){
+	var cloneTr = $('tr[name="cloneTr"]:first').clone(true);
+	$(cloneTr).find('input').val('');
+	$(cloneTr).find('a[name="add"]:first').hide();
+	$(cloneTr).find('a[name="del"]:first').show();
+	$('#imageNames').append(cloneTr);
+}
+
+function delCloneTr(tar){
+var tr = $(tar).parent().parent();
+	$(tr).remove();
+
+}	
 </script>
 <body>
 	<!--登陆页面-->
@@ -170,16 +238,27 @@ function sendAjax(url, params, callbackfunction, async, contentType) {
 				<div class="ui-field-contain">
 					<fieldset data-role="fieldcontain">
 						<label for="shopId">选择商家:</label> <select name="shopId"
-							id="shopId" data-native-menu="false">
+							id="shopId">
 						</select>
 					</fieldset>
 					<br /> <label for="status">抽查结果:</label> <select name="status"
 						id="status">
-						<option value="0">不合格</option>
 						<option value="1">合格</option>
+						<option value="0">不合格</option>
 					</select> <label for="description">备注:</label>
 					<textarea rows="3" cols="10" name="description" id="description"></textarea>
-					<label for="imageNames">上传图片:</label> <input id="imageNames" type="file"/>
+					<label for="imageNames">上传图片:</label>
+					<table id="imageNames" width="100%">
+						<tr name = "cloneTr">
+							<td width="90%"><input name="imageNames" type="file"/></td>
+							<td><a href="javascript:void(0);" name="del" style="display:none"  onclick="delCloneTr(this)"><img src="<%=basePath%>/images/authority/3_del.png"/></a>
+							<a href="javascript:void(0);" name="add"  onclick="addCloneTr(this)"><img src="<%=basePath%>/images/authority/add.jpg"/></a>
+							</td>
+					 	</tr>
+					</table>
+					<label for="imageTable">已上传图片:</label>
+					<table id="imageTable" width="100%">
+					</table>
 					<div style="margin-top: 20%;">
 						<input type="button" class="submit" value="提交" />
 					</div>
