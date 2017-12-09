@@ -34,7 +34,6 @@
                 var userInfo = callback.data;
                 var url = getRoot() + '/mobile/mobileMain.do';
                 $('#mainForm').attr('action', url);
-                $('#mainForm input[name=id]').val(userInfo.id);
                 $('#mainForm').submit();
             }else{
                 layer.msg(callback.msg);
@@ -85,7 +84,6 @@
         <p>© 2017 WONDER CITY. All Rights Reserved.</p>
     </div>
     <form id="mainForm" action="" method="get">
-        <input name="id" type="hidden">
     </form>
 </div>
 </body>

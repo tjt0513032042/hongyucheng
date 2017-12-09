@@ -14,7 +14,6 @@ $(document).ready(function () {
                 var userInfo = callback.data;
                 var url = getRoot() + '/login/main.do';
                 $('#mainForm').attr('action', url);
-                $('#mainForm input[name=id]').val(userInfo.id);
                 $('#mainForm').submit();
             }else{
                 layer.msg(callback.msg);

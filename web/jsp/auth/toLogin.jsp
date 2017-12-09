@@ -64,7 +64,6 @@
         </form>
     </div>
     <form id="mainForm" action="" method="get">
-        <input name="id" type="hidden">
     </form>
 </div>
 </body>
