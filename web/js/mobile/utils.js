@@ -47,3 +47,43 @@ function sendAjax(url, params, callbackfunction, async, contentType) {
     }
     $.ajax(opts);
 }
+
+function paramString2obj (form) {
+    var serializedParams = $(form).serialize();
+    var obj={};
+    function evalThem (str) {
+        var strAry = new Array();
+        strAry = str.split("=");
+        //使用decodeURIComponent解析uri 组件编码
+        for(var i = 0; i < strAry.length; i++){
+            strAry[i] = decodeURIComponent(strAry[i]);
+        }
+        var attributeName = strAry[0];
+        var attributeValue = strAry[1].trim();
+        //如果值中包含"="符号，需要合并值
+        if(strAry.length > 2){
+            for(var i = 2;i<strAry.length;i++){
+                attributeValue += "="+strAry[i].trim();
+            }
+        }
+        if(!attributeValue){
+            return ;
+        }
+        var attriNames = attributeName.split("."),
+            curObj = obj;
+        for(var i = 0; i < (attriNames.length - 1); i++){
+            curObj[attriNames[i]]?"":(curObj[attriNames[i]] = {});
+            curObj = curObj[attriNames[i]];
+        }
+        //使用赋值方式obj[attributeName] = attributeValue.trim();替换
+        //eval("obj."+attributeName+"=\""+attributeValue.trim()+"\";");
+        //解决值attributeValue中包含单引号、双引号时无法处理的问题
+        curObj[attriNames[i]] = attributeValue.trim();
+    };
+    var properties = serializedParams.split("&");
+    for (var i = 0; i < properties.length; i++) {
+        //处理每一个键值对
+        evalThem(properties[i]);
+    };
+    return obj;
+}

@@ -7,20 +7,17 @@ $(document).ready(function () {
             return;
         }
         var url = getRoot() + "/login/auth.do";
-        var data = $('form').serializeArray();
-        sendAjax(url, data, function (userInfo) {
-            if (userInfo) {
-                // $.cookie('userId', userInfo.id);
-                // $.cookie('userName', userInfo.name);
-                // $(window).data('userInfo', userInfo);
+        var data = paramString2obj($('form'));
+        data.type = 'pc';
+        sendAjax(url, data, function (callback) {
+            if(callback.flag){
+                var userInfo = callback.data;
                 var url = getRoot() + '/login/main.do';
-                // window.location.href = url;
-
                 $('#mainForm').attr('action', url);
                 $('#mainForm input[name=id]').val(userInfo.id);
                 $('#mainForm').submit();
-            } else {
-                layer.msg("用户名或密码错误!");
+            }else{
+                layer.msg(callback.msg);
             }
         });
     });

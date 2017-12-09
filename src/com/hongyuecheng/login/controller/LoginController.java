@@ -1,7 +1,10 @@
 package com.hongyuecheng.login.controller;
 
+import com.hongyuecheng.common.Constants;
 import com.hongyuecheng.user.entity.User;
 import com.hongyuecheng.user.service.UserService;
+import com.hongyuecheng.utils.ReturnValue;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,15 +37,31 @@ public class LoginController {
      */
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     @ResponseBody
-    public Object authUser(String userName, String password,HttpSession session) {
+    public Object authUser(String userName, String password, String type, HttpSession session) {
+        ReturnValue returnValue = new ReturnValue();
         User user = userService.getUserByNameAndPassword(userName, password);
-
         if (null != user) {
+            if (StringUtils.equals(type, Constants.LOGIN_TYPE_PC)) {
+                if (user.getRole().intValue() != Constants.USER_TYPE_ADMIN) {
+                    returnValue.setFlag(false);
+                    returnValue.setMsg("该用户仅能在手机端访问!");
+                    return returnValue;
+                }
+            } else if (StringUtils.equals(type, Constants.LOGIN_TYPE_MOBILE)) {
+
+            } else {
+                returnValue.setFlag(false);
+                returnValue.setMsg("非法登录");
+                return returnValue;
+            }
             session.setAttribute("user", user);
-            return user;
+            returnValue.setFlag(true);
+            returnValue.setData(user);
         } else {
-            return false;
+            returnValue.setFlag(false);
+            returnValue.setMsg("用户名或密码错误,无法登录!");
         }
+        return returnValue;
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)

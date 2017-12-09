@@ -29,7 +29,7 @@
 <body>
 <div><img src="<%=basePath%>/images/mobile/logo.jpg" width="100%"></div>
     <ul data-role="listview" data-inset="true">
-      <c:if test="${user.role != 2}">
+      <c:if test="${user.role == 1}">
       <li><a href="<%=basePath%>/mobile/detail.do?checkType=0" target="_top"><img src="<%=basePath%>/images/mobile/open.png"  class="ui-li-icon">开店检查</a></li>
       <li><a href="<%=basePath%>/mobile/detail.do?checkType=1" target="_top"><img src="<%=basePath%>/images/mobile/cancel.png" class="ui-li-icon">闭店检查</a></li>
       </c:if>
