@@ -14,9 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.hongyuecheng.mobile.entity.MobileRequestEntity;
+import com.hongyuecheng.user.service.UserService;
+import com.hongyuecheng.utils.ReturnValue;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,6 +57,8 @@ public class MobileController {
     private CheckResultService checkResultService;
     @Autowired
     private ShopInfoService shopInfoService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/list")
     public String list() {
@@ -77,7 +83,6 @@ public class MobileController {
                     ret = new CheckRecords();
                     ret.setShopId(shopId);
                     ret.setShopInfo(shopInfoService.getShopInfo(shopId));
-                    ret.setCheckDate(new Date());
                     ret.setRecordType(checkType);
                     ret.setUserId(user.getId());
                     checkRecordsService.initCheckRecords(ret);
@@ -111,6 +116,8 @@ public class MobileController {
                         ret.setDetails(detailAll);
                     }
                 }
+                ret.setCheckDate(new Date());
+                ret.setCheckDateStr(DateUtil.format(ret.getCheckDate()));
                 request.setAttribute("checkRecords", ret);
                 return "mobile/checkDetail";
             }
@@ -121,52 +128,6 @@ public class MobileController {
     public String login() {
         return "mobile/mobileLogin";
     }
-/*
-    @RequestMapping(value = "/getCheckRecords", method = RequestMethod.POST)
-    @ResponseBody
-    public CheckRecords getCheckRecords(Integer shopId, Integer checkType, HttpSession session) {
-        String checkDate = DateUtil.format(new Date(), DateUtil.FORMAT_TYPE_1);
-        CheckRecords ret = checkRecordsService.getCheckRecords(checkDate, shopId, checkType);
-        if (null == ret) {
-            ret = new CheckRecords();
-            ret.setShopId(shopId);
-            ret.setShopInfo(shopInfoService.getShopInfo(shopId));
-            ret.setCheckDate(new Date());
-            ret.setRecordType(checkType);
-            User user = (User) session.getAttribute("user");
-            ret.setUserId(user.getId());
-            checkRecordsService.initCheckRecords(ret);
-        }
-        if (null != ret.getShopInfo()) {
-            Integer optionType = Constants.CHECK_OPTION_TYPE_NORMAL;;
-            if (Constants.SHOP_TYPE_FOOD.intValue() == ret.getShopInfo().getShopType()) {
-                optionType = null;
-            }
-            //需要检查的所有检查项
-            List<CheckRecordDetail> detailAll = checkOptionService.getCheckRecordDetailByType(checkType, optionType);
-
-            List<CheckRecordDetail> resDetailList = null;
-
-            //现在已经检查的检查项
-            List<CheckRecordDetail> detailList = ret.getDetails();
-            if (null != detailList && detailList.size() > 0) {
-                resDetailList = new ArrayList<CheckRecordDetail>();
-                for (CheckRecordDetail dAll : detailAll) {
-                    String optcode = dAll.getOptionCode();
-                    for (CheckRecordDetail checkRecordDetail : detailList) {
-                        if (optcode.equalsIgnoreCase(checkRecordDetail.getOptionCode())) {
-                            dAll.setOptionResult(checkRecordDetail.getOptionResult());
-                        }
-                    }
-                    resDetailList.add(dAll);
-                }
-                ret.setDetails(resDetailList);
-            } else {
-                ret.setDetails(detailAll);
-            }
-        }
-        return ret;
-    }*/
 
     @RequestMapping(value = "/mobileMain", method = RequestMethod.GET)
     public String mobileMain(HttpSession session) {
@@ -176,6 +137,41 @@ public class MobileController {
         } else {
             return "mobile/mobileLogin";
         }
+    }
+
+    @RequestMapping(value = "/saveRecordDetails", method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnValue saveRecordDetails(@RequestBody CheckRecords checkRecords, HttpSession session) {
+        ReturnValue returnValue = new ReturnValue();
+        if (null == checkRecords) {
+            returnValue.setFlag(false);
+            returnValue.setMsg("参数错误保存失败");
+            return returnValue;
+        }
+        try {
+            checkRecords.setCheckDate(new Date());
+            if (null == checkRecords.getRecordId()) {// 新增
+                checkRecordsService.addCheckRecords(checkRecords);
+                List<CheckRecordDetail> details = checkRecords.getDetails();
+                for (CheckRecordDetail checkRecordDetail : details) {
+                    checkRecordDetail.setRecordId(checkRecords.getRecordId());
+                    checkRecordDetailService.addCheckRecordDetail(checkRecordDetail);
+                }
+            } else {// 更新
+                checkRecordsService.updateCheckRecords(checkRecords);
+                List<CheckRecordDetail> details = checkRecords.getDetails();
+                for (CheckRecordDetail checkRecordDetail : details) {
+                    checkRecordDetail.setRecordId(checkRecords.getRecordId());
+                    checkRecordDetailService.updateCheckRecordDetail(checkRecordDetail);
+                }
+            }
+            returnValue.setFlag(true);
+            returnValue.setData(checkRecords);
+        } catch (Exception e) {
+            returnValue.setFlag(false);
+            returnValue.setMsg("保存数据错误");
+        }
+        return returnValue;
     }
 
     @RequestMapping(value = "/saveCheckRecordDetail", method = RequestMethod.POST)
@@ -190,7 +186,6 @@ public class MobileController {
                 ret.setCheckDate(new Date());
                 ret.setRecordType(checkType);
                 User user = (User) session.getAttribute("user");
-                ;
                 ret.setUserId(user.getId());
                 checkRecordsService.initCheckRecords(ret);
                 recordId = checkRecordsService.addCheckRecords(ret);

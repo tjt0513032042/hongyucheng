@@ -89,4 +89,9 @@ public class CheckRecordsDao {
         String sql = "insert into check_records (shop_id, check_date, user_id, record_type) values (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, shopId, checkDate, userId, recordType);
     }
+
+    public int updateCheckRecords(CheckRecords checkRecords){
+        String sql = "update check_records set user_id = ?, check_date = now() where record_id = ?";
+        return jdbcTemplate.update(sql, checkRecords.getUserId(), checkRecords.getRecordId());
+    }
 }

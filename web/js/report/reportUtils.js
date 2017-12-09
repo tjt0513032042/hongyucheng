@@ -66,9 +66,9 @@ function getCheckRecords(recordId) {
 function transformOptionResult(result) {
     var desc = '';
     if (result == 0 || result == '0') {
-        desc = '<span>√</span>';
+        desc = '<span style="color: green;">√</span>';
     } else {
-        desc = '<span>×</span>';
+        desc = '<span style="color: red;">×</span>';
     }
     return desc;
 }

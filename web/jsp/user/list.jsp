@@ -35,6 +35,7 @@
                 <th>姓名</th>
                 <th>角色</th>
                 <th>手机号码</th>
+                <th>商家名称</th>
                 <th>操作</th>
             </thead>
         </table>

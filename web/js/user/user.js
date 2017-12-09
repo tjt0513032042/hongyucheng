@@ -50,6 +50,11 @@ function searchList(name, phone, pageNo, pageSize) {
                     htmlContent.push(data.phone);
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
+                    if (data.shop && null != data.shop) {
+                        htmlContent.push(data.shop.shopName);
+                    }
+                    htmlContent.push('</td>');
+                    htmlContent.push('<td>');
                     htmlContent.push('<a href="#" class="tablelink modify">修改</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink delete">删除</a>');
                     htmlContent.push('</td>');
                     htmlContent.push('</tr>')
@@ -139,7 +144,8 @@ function toSaveUserInfo(userInfo) {
                     required: true
                 },
                 phone: {
-                    required: true
+                    required: true,
+                    isMobile: true
                 }
             };
             if (userInfo && null != userInfo) {

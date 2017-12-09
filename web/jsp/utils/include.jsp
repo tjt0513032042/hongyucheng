@@ -59,11 +59,18 @@
         range: $.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
         max: $.validator.format("请输入一个最大为 {0} 的值"),
         min: $.validator.format("请输入一个最小为 {0} 的值")
-    });
+    })
     $.extend($.validator.showErrors, function (errorMap, errorList) {
         $.each(errorList, function (i, v) {
             layer.tips(v.message, v.element, {time: 2000});
             return false;
         });
     });
+
+    // 手机号码验证
+    jQuery.validator.addMethod("isMobile", function(value, element) {
+        var length = value.length;
+        var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请正确填写手机号码");
 </script>

@@ -94,15 +94,13 @@ public class CheckRecordsService {
     
     public int addCheckRecords(CheckRecords checkRecords) {
     	int recordId = checkRecordsDao.addCheckRecords(checkRecords.getShopId(),
-    			DateUtil.format(checkRecords.getCheckDate(), DateUtil.FORMAT_TYPE_1),
+    			DateUtil.format(checkRecords.getCheckDate()),
     			checkRecords.getUserId(), checkRecords.getRecordType());
-    	List<CheckRecordDetail> detailsList = checkRecords.getDetails();
-    	if(null!=detailsList&&detailsList.size()>0){
-    		for (CheckRecordDetail checkRecordDetail : detailsList) {
-    			checkRecordDetailService.addCheckRecordDetail(checkRecordDetail);
-			}
-    	}
+        checkRecords.setRecordId(recordId);
         return recordId;
     }
-    
+
+    public int updateCheckRecords(CheckRecords checkRecords){
+        return checkRecordsDao.updateCheckRecords(checkRecords);
+    }
 }

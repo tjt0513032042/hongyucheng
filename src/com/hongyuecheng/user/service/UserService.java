@@ -1,8 +1,10 @@
 package com.hongyuecheng.user.service;
 
+import com.hongyuecheng.shop.service.ShopInfoService;
 import com.hongyuecheng.user.dao.UserDao;
 import com.hongyuecheng.user.entity.User;
 import com.hongyuecheng.utils.Page;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private ShopInfoService shopInfoService;
 
     public User getUserById(Integer id) {
         if (null == id) {
@@ -35,6 +40,14 @@ public class UserService {
 
     public void queryUserList(User entity, Page<User> page) {
         userDao.queryUserList(entity, page);
+        List<User> list = page.getResult();
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (User user : list) {
+                if (null != user.getShopId()) {
+                    user.setShop(shopInfoService.getShopInfo(user.getShopId()));
+                }
+            }
+        }
     }
 
     public boolean deleteUserById(Integer id) {
