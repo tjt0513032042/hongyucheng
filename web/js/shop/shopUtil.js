@@ -35,7 +35,7 @@ function chooseShop(input) {
         type: 1,
         shadeClose: false,
         closeBtn: 0,
-        area: ['400px', '600px'],
+        area: ['400px', '70%'],
         btn: ['确定', '取消'],
         content: html.join(''),
         success: function (dom) {

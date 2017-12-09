@@ -13,7 +13,7 @@ function showCheckDetail(recordId) {
         type: 1,
         shadeClose: false,
         closeBtn: true,
-        area: ['600px', '750px'],
+        area: ['600px', '80%'],
         content: getDetailsHtml(info)
     });
 }

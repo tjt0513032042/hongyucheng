@@ -58,6 +58,15 @@ public class Constants {
     public static final Integer CHECK_OPTION_TYPE_UNNORMAL = 1;
 
     /**
+     * 登录方式:电脑
+     */
+    public static final String LOGIN_TYPE_PC = "pc";
+    /**
+     * 登陆方式:手机
+     */
+    public static final String LOGIN_TYPE_MOBILE = "mobile";
+
+    /**
      * git test
      */
     public static final String a = "test";

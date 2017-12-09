@@ -7,7 +7,7 @@ function showCheckResult(planInfo, shopId) {
         type: 1,
         shadeClose: false,
         closeBtn: true,
-        area: ['500px', '800px'],
+        area: ['500px', '80%'],
         content: getCheckResultHtml(planInfo, shopId),
         success: function (dom) {
             $(dom).find('select[name=checkShop]').on('change', function () {

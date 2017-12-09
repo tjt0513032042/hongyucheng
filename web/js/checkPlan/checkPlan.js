@@ -126,7 +126,7 @@ function toSave() {
         type: 1,
         shadeClose: false,
         closeBtn: 0,
-        area: ['600px', '800px'],
+        area: ['600px', '80%'],
         btn: ['确定', '取消'],
         content: getInfoHtml(),
         success: function (dom) {
@@ -392,7 +392,7 @@ function toModify(info) {
         type: 1,
         shadeClose: false,
         closeBtn: 0,
-        area: ['600px', '800px'],
+        area: ['600px', '80%'],
         btn: ['确定', '取消'],
         content: getInfoHtml(info),
         success: function (dom) {

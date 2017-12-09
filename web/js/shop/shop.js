@@ -155,7 +155,7 @@ function toSave(info) {
         type: 1,
         shadeClose: false,
         closeBtn: 0,
-        area: ['600px', '700px'],
+        area: ['600px', '80%'],
         btn: ['确定', '取消'],
         content: getInfoHtml(info),
         success: function (dom) {
@@ -337,7 +337,7 @@ function chooseDevices(nameInput, idInput) {
         type: 1,
         shadeClose: false,
         closeBtn: 0,
-        area: ['400px', '600px'],
+        area: ['400px', '70%'],
         btn: ['确定', '取消'],
         content: html.join(''),
         success: function (dom) {
