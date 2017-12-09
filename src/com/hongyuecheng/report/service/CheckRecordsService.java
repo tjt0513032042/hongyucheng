@@ -3,6 +3,7 @@ package com.hongyuecheng.report.service;
 import java.util.Date;
 import java.util.List;
 
+import com.hongyuecheng.common.Constants;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,11 +94,11 @@ public class CheckRecordsService {
     
     
     public int addCheckRecords(CheckRecords checkRecords) {
-    	int recordId = checkRecordsDao.addCheckRecords(checkRecords.getShopId(),
+    	checkRecordsDao.addCheckRecords(checkRecords.getShopId(),
     			DateUtil.format(checkRecords.getCheckDate()),
     			checkRecords.getUserId(), checkRecords.getRecordType());
-        checkRecords.setRecordId(recordId);
-        return recordId;
+        checkRecords = checkRecordsDao.getCheckRecords(DateUtil.format(checkRecords.getCheckDate(), DateUtil.FORMAT_TYPE_1), checkRecords.getShopId(), checkRecords.getRecordType());
+        return checkRecords.getRecordId();
     }
 
     public int updateCheckRecords(CheckRecords checkRecords){

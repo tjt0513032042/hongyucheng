@@ -114,7 +114,7 @@ function getOperate(data) {
         html.push('<a href="#" class="tablelink view" rname="开店表" recordId="' + data.openRecord.recordId + '">开店表</a>&nbsp;&nbsp;&nbsp;');
     }
     if (null != data.closeRecord) {
-        html.push('<a href="#" class="tablelink view" rname="闭店表" recordId="' + data.openRecord.recordId + '">闭店表</a>&nbsp;&nbsp;&nbsp;');
+        html.push('<a href="#" class="tablelink view" rname="闭店表" recordId="' + data.closeRecord.recordId + '">闭店表</a>&nbsp;&nbsp;&nbsp;');
     }
     if (null != data.checkResult) {
         html.push('<a href="#" class="tablelink viewcheckresult" rname="检查结果" planId="' + data.checkResult.planId + '" shopId="' + data.checkResult.shopId + '">检查结果</a>');

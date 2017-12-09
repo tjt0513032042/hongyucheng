@@ -151,7 +151,8 @@ public class MobileController {
         try {
             checkRecords.setCheckDate(new Date());
             if (null == checkRecords.getRecordId()) {// 新增
-                checkRecordsService.addCheckRecords(checkRecords);
+                Integer recordId = checkRecordsService.addCheckRecords(checkRecords);
+                checkRecords.setRecordId(recordId);
                 List<CheckRecordDetail> details = checkRecords.getDetails();
                 for (CheckRecordDetail checkRecordDetail : details) {
                     checkRecordDetail.setRecordId(checkRecords.getRecordId());
