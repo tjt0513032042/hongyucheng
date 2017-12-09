@@ -51,7 +51,7 @@ public class LoginController {
 
             } else {
                 returnValue.setFlag(false);
-                returnValue.setMsg("非法登录");
+                returnValue.setMsg("非法登陆");
                 return returnValue;
             }
             session.setAttribute("user", user);
@@ -59,7 +59,7 @@ public class LoginController {
             returnValue.setData(user);
         } else {
             returnValue.setFlag(false);
-            returnValue.setMsg("用户名或密码错误,无法登录!");
+            returnValue.setMsg("用户名或密码错误,无法登陆!");
         }
         return returnValue;
     }

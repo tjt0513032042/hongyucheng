@@ -48,6 +48,9 @@
     </bean>
     <bean id="dateConvert" class="com.hongyuecheng.utils.StringToDateCover"/>
 
+    <!-- 必须放于最后，用于初始化环境参数 -->
+    <bean class="com.hongyuecheng.app.ApplicationEnvironment"></bean>
+
     <mvc:interceptors>
         <mvc:interceptor>
             <!-- 需拦截的地址 -->

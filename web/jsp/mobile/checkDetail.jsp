@@ -20,29 +20,30 @@
     <link rel="stylesheet" href="<%=basePath%>/js/jquery-mobile/jquery.mobile-1.4.5.min.css">
     <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>/js/mobile/utils.js"></script>
-<style>
-th {
-    border-bottom: 1px solid #d6d6d6;
-}
+    <style>
+        th {
+            border-bottom: 1px solid #d6d6d6;
+        }
 
-tr:nth-child(even) {
-    background: #e9e9e9;
-}
-/**
-隐藏列选项按钮
- */
-.ui-table-columntoggle-btn{
-    visibility: hidden;
-    position: absolute;
-}
-</style>
+        tr:nth-child(even) {
+            background: #e9e9e9;
+        }
+
+        /**
+        隐藏列选项按钮
+         */
+        .ui-table-columntoggle-btn {
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
 </head>
 <body>
 
 <div data-role="page" id="pageone">
     <div data-role="header">
         <h1 id="title">${checkRecords.shopInfo.shopName}-<c:if test="${checkRecords.recordType == 0}">开店表</c:if>
-        	<c:if test="${checkRecords.recordType == 1}">闭店表</c:if>
+            <c:if test="${checkRecords.recordType == 1}">闭店表</c:if>
         </h1>
     </div>
     <input type="hidden" name="recordId" value="${checkRecords.recordId }">
@@ -52,47 +53,51 @@ tr:nth-child(even) {
     <form id="backForm" action="" method="post">
         <input name="id" type="hidden" value="${user.id}"/>
     </form>
-        <ul style="display: inline;">
-            <li>
-                <label>当前时间: ${checkRecords.checkDateStr}</label>
-            </li>
-        </ul>
-        <table  data-role="table" data-mode="columntoggle" class="ui-responsive" data-column-btn-text="列选择" id="myTable">
-            <thead>
+    <ul style="display: inline;">
+        <li>
+            <label>当前时间: ${checkRecords.checkDateStr}</label>
+        </li>
+    </ul>
+    <table data-role="table" data-mode="columntoggle" class="ui-responsive" data-column-btn-text="列选择" id="myTable">
+        <thead>
+        <tr>
+            <th style="width:38px" data-priority="1">标识</th>
+            <th data-priority="1">检查项目</th>
+            <th style="width:38px" data-priority="1">结果</th>
+        </tr>
+        </thead>
+        <tbody id="mainDiv">
+        <c:forEach items="${checkRecords.details}" var="details" varStatus="status">
             <tr>
-                <th style="width:38px" data-priority="1">标识</th>
-                <th data-priority="1">检查项目</th>
-                <th style="width:38px" data-priority="1">结果</th>
+                <td code="${details.optionCode}">${status.index + 1}</td>
+                <td>${details.optionName}</td>
+                <td>
+                    <input type="checkbox" name="optionResult" id="${details.optionCode}"
+                            <c:if test="${details.optionResult == 0}">
+                                checked
+                            </c:if>
+                    />
+                </td>
             </tr>
-            </thead>
-            <tbody id="mainDiv">
-				<c:forEach items="${checkRecords.details}" var="details" varStatus="status">
-					<tr>
-						<td code="${details.optionCode}">${status.index + 1}</td>
-						<td>${details.optionName}</td>
-						<td>
-							<input type="checkbox" name="optionResult" id="${details.optionCode}" 
-							<c:if test="${details.optionResult == 0}">
-								checked 
-							</c:if>
-							 />
-						</td>
-					</tr>
-				</c:forEach>
+        </c:forEach>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
     <div>
-        <input type="button" class="submit" value="提交" />
+        <input type="button" class="submit" value="提交"
+                <c:if test="${!submitFlag}">
+                    disabled="disabled"
+                </c:if>
+        />
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('input.submit').on('click', function(){
+        $('input.submit').on('click', function () {
             var uncheckFlag = false;
             var trs = $('#mainDiv tr');
             var details = [];
-            $.each(trs, function(i, tr){
+            $.each(trs, function (i, tr) {
                 var code = $(tr).find('td:first').attr('code');
                 var checkbox = $(tr).find('td:last input');
                 var optionResult = $(checkbox).is(':checked') ? 0 : 1;
@@ -118,7 +123,11 @@ tr:nth-child(even) {
                 sendAjax(url, JSON.stringify(params), function (callback) {
                     if (callback.flag) {
                         $('input[name=recordId]').val(callback.data.recordId);
-                        layer.msg('保存成功!');
+                        if (callback.msg && callback.msg != '') {
+                            layer.msg(callback.msg);
+                        } else {
+                            layer.msg('保存成功!');
+                        }
                     } else {
                         if (callback.msg) {
                             layer.msg(callback.msg);

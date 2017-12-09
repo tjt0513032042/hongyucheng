@@ -16,6 +16,7 @@ import javax.servlet.http.Part;
 
 import com.hongyuecheng.mobile.entity.MobileRequestEntity;
 import com.hongyuecheng.user.service.UserService;
+import com.hongyuecheng.utils.PropertiesMapper;
 import com.hongyuecheng.utils.ReturnValue;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,9 +120,38 @@ public class MobileController {
                 ret.setCheckDate(new Date());
                 ret.setCheckDateStr(DateUtil.format(ret.getCheckDate()));
                 request.setAttribute("checkRecords", ret);
+                request.setAttribute("submitFlag", checkSubmit(checkType));
                 return "mobile/checkDetail";
             }
         }
+    }
+
+    /**
+     * 判断当前时间是否可以编辑
+     *
+     * @param checkType
+     * @return
+     */
+    private boolean checkSubmit(Integer checkType) {
+        boolean flag = false;
+        Date current = new Date();
+        String start = DateUtil.format(current, DateUtil.FORMAT_TYPE_1) + " ";
+        String end = DateUtil.format(current, DateUtil.FORMAT_TYPE_1) + " ";
+        if (checkType.intValue() == Constants.CHECK_RECORD_TYPE_OPEN.intValue()) {
+            start += PropertiesMapper.getValue("opencheck_start");
+            end += PropertiesMapper.getValue("opencheck_end");
+        } else if (checkType.intValue() == Constants.CHECK_RECORD_TYPE_CLOSE.intValue()) {
+            start += PropertiesMapper.getValue("closecheck_start");
+            end += PropertiesMapper.getValue("closecheck_end");
+        } else {
+            return flag;
+        }
+        Date startDate = DateUtil.parse(start);
+        Date endDate = DateUtil.parse(end);
+        if (current.getTime() >= startDate.getTime() && current.getTime() <= endDate.getTime()) {
+            flag = true;
+        }
+        return flag;
     }
 
     @RequestMapping("/login")
@@ -168,6 +198,13 @@ public class MobileController {
             }
             returnValue.setFlag(true);
             returnValue.setData(checkRecords);
+
+            if (checkRecords.getRecordType().intValue() == Constants.CHECK_RECORD_TYPE_CLOSE.intValue()) {
+                CheckPlan plan = checkPlanService.getPlanByDateAndShop(DateUtil.parse(DateUtil.format(new Date(), DateUtil.FORMAT_TYPE_1), DateUtil.FORMAT_TYPE_1), checkRecords.getShopId());
+                if (null != plan) {
+                    returnValue.setMsg("保存成功,但本店今日有抽查,请在抽查人员抽查完成之后再离店!");
+                }
+            }
         } catch (Exception e) {
             returnValue.setFlag(false);
             returnValue.setMsg("保存数据错误");

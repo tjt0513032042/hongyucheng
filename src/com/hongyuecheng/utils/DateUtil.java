@@ -36,7 +36,7 @@ public class DateUtil {
     }
 
     public static Date parse(String date) {
-        return parse(date);
+        return parse(date, null);
     }
 
     public static Date addDays(Date date, int num) {
