@@ -367,7 +367,7 @@ public class MobileController {
         }
 
         try {
-            setRespone(response, "保存成功");
+            setRespone(response, "保存成功,刷新以查看提交图片");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -377,7 +377,7 @@ public class MobileController {
     public void setRespone(HttpServletResponse response, String info) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.println("保存成功~！");
+        out.println(info);
     }
  /*   
     @RequestMapping("/downloadImage")

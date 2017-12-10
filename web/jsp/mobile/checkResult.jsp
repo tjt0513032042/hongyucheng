@@ -56,8 +56,7 @@ $(document).on("pageinit",function(event){
 			processData : false,
 			contentType : false
 		}).done(function(res) {
-			 layer.msg(res);
-			 window.location.reload();
+            layer.msg(res);
 		}).fail(function(res) {});
     });
     
