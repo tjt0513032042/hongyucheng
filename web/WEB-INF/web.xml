@@ -37,9 +37,6 @@
             <param-value>WEB-INF/springmvc-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
-        <multipart-config>
-            <file-size-threshold>0</file-size-threshold>
-        </multipart-config>
     </servlet>
 
     <servlet-mapping>

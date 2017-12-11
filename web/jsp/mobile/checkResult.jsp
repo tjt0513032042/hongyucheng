@@ -56,12 +56,13 @@ $(document).on("pageinit",function(event){
 			processData : false,
 			contentType : false
 		}).done(function(res) {
-            layer.msg(res);
+			 layer.msg(res);
+			// window.location.reload();
 		}).fail(function(res) {});
     });
     
     $('#shopId').on('change', function () {
- 
+ 	clearPage();
     var params ={
     shopId:$('#shopId').val(),
     planId:$('#planId').val()
@@ -79,14 +80,10 @@ function refreshPage(checkResult){
             // 加载列表数据
             if(checkResult.shopId){
 	           	$('#description').val(checkResult.description);
-	        	//$("#status").val(checkResult.status);
 	        	$("#status").find("option[value='"+checkResult.status+"']").attr("selected",true);
 	        	$("#status").selectmenu('refresh', true);
-	        	/* var fileName = checkResult.imageNames
-	        	alert(fileName); */
 				if(''!= checkResult.imageNames){
 					$(checkResult.imageNames.split(';')).each(function(i,v){
-						//console.log(v);
 						var fileName = v;
 					var imgUrl = '<%=basePath%>/check_result_images/'+fileName;	
 					var imgTr =	'<tr><td width="90%"><img class="image"  src="'+imgUrl+'" width="100%"/></td><td>'
@@ -103,6 +100,7 @@ function refreshPage(checkResult){
 }
 
 function clearPage(){
+	$('#imageTable').find('tr').remove();
     $('#description').val('');
 	$("#status").find("option[value='1']").attr("selected",true);
 	$("#status").selectmenu('refresh', true);
@@ -187,7 +185,7 @@ var tr = $(tar).parent().parent();
 		</div>
 
 		<div data-role="main" class="ui-content">
-			<form method="post" action="" id="mainForm" method="post" enctype="multipart/form-data">
+			<form method="post" action="" id="mainForm" enctype="multipart/form-data">
 				<input type="hidden" name="planId" id="planId" />
 				<div class="ui-field-contain">
 					<fieldset data-role="fieldcontain">

@@ -58,7 +58,7 @@
         <form>
             <ul>
                 <li><input id="userName" name="userName" type="text" class="loginuser" onclick="JavaScript:this.value=''"/></li>
-                <li><input id="password" name="password" type="password" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
+                <li><input id="password" name="password" type="password" class="loginpwd" onclick="JavaScript:this.value=''"/></li>
                 <li><input name="" type="button" class="loginbtn" value="登录" /></li>
             </ul>
         </form>

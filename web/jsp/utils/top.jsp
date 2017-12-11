@@ -23,14 +23,11 @@
 
 <div class="topright">
     <ul>
-        <li><span><img src="<%=basePath%>/images/help.png" title="帮助" class="helpimg"/></span><a href="#">帮助</a></li>
         <li><a id="logout" href="#">退出</a></li>
     </ul>
 
     <div class="user">
         <span class="userNameSpan">${user.name}</span>
-        <i>消息</i>
-        <b>5</b>
     </div>
 
 </div>

@@ -31,6 +31,4 @@
             <value>123456</value>
         </property>
     </bean>
-
-
 </beans>

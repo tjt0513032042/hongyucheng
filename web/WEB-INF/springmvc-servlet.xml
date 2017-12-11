@@ -48,6 +48,12 @@
     </bean>
     <bean id="dateConvert" class="com.hongyuecheng.utils.StringToDateCover"/>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="maxUploadSize" value="10485760000"></property>
+        <property name="maxInMemorySize" value="40960"></property>
+    </bean>
+
     <!-- 必须放于最后，用于初始化环境参数 -->
     <bean class="com.hongyuecheng.app.ApplicationEnvironment"></bean>
 

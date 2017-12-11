@@ -1,31 +1,5 @@
 package com.hongyuecheng.mobile.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-
-import com.hongyuecheng.mobile.entity.MobileRequestEntity;
-import com.hongyuecheng.user.service.UserService;
-import com.hongyuecheng.utils.PropertiesMapper;
-import com.hongyuecheng.utils.ReturnValue;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.hongyuecheng.checkplan.entity.CheckPlan;
 import com.hongyuecheng.checkplan.entity.CheckResult;
 import com.hongyuecheng.checkplan.service.CheckOptionService;
@@ -38,12 +12,33 @@ import com.hongyuecheng.report.service.CheckRecordDetailService;
 import com.hongyuecheng.report.service.CheckRecordsService;
 import com.hongyuecheng.shop.service.ShopInfoService;
 import com.hongyuecheng.user.entity.User;
+import com.hongyuecheng.user.service.UserService;
 import com.hongyuecheng.utils.DateUtil;
 import com.hongyuecheng.utils.Page;
+import com.hongyuecheng.utils.PropertiesMapper;
+import com.hongyuecheng.utils.ReturnValue;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
 
 @Controller
 @RequestMapping("/mobile")
-@MultipartConfig
+//@MultipartConfig(fileSizeThreshold = 0, maxFileSize = 52428800l, maxRequestSize = 52428800l)
 public class MobileController {
 
     @Autowired
@@ -301,7 +296,7 @@ public class MobileController {
     @RequestMapping(value = "/saveCheckResult", method = RequestMethod.POST)
     @ResponseBody
     public void saveCheckResult(Integer shopId, Integer status, String description, Integer planId,
-                                HttpServletRequest request, HttpServletResponse response) {
+                                DefaultMultipartHttpServletRequest request, HttpServletResponse response) {
         boolean isNew = false;
         CheckResult checkResult = checkResultService.getCheckResult(planId, shopId);
         if (null == checkResult) {
@@ -318,35 +313,38 @@ public class MobileController {
             request.setCharacterEncoding("utf-8");
             int num = 0;
             boolean flag = true;
-            Collection<Part> p = request.getParts();
-            while (flag) {
-                //Servlet3.0中新引入的方法，用来处理multipart/form-data类型编码的表单
-                Part part = request.getPart("imageNames_" + num);
-                if (null == part) {
-                    flag = false;
-                    break;
+            //Servlet3.0中新引入的方法，用来处理multipart/form-data类型编码的表单
+            MultiValueMap<String, MultipartFile> fileMap = request.getMultiFileMap();
+            Set<String> fileNameKeys = fileMap.keySet();
+            if (org.apache.commons.collections.CollectionUtils.isNotEmpty(fileNameKeys)) {
+                for (String sourceFileName : fileNameKeys) {
+                    List<MultipartFile> files = fileMap.get(sourceFileName);
+                    if (org.apache.commons.collections.CollectionUtils.isEmpty(files)) {
+                        continue;
+                    }
+                    MultipartFile multipartFile = files.get(0);
+                    String fileType = multipartFile.getOriginalFilename();
+                    fileType = fileType.substring(fileType.lastIndexOf(".") + 1, fileType.length());
+                    String saveFileName = shopId + "_" + planId + "_" + num + "." + fileType;
+                    //获得存储上传文件的文件夹路径
+                    String fileSavingFolder = request.getSession().getServletContext().getRealPath("") + File.separator + "check_result_images";
+                    //获得存储上传文件的完整路径（文件夹路径+文件名）
+                    //文件夹位置固定，文件夹采用与上传文件的原始名字相同
+                    String fileSavingPath = fileSavingFolder + File.separator + saveFileName;
+                    //如果存储上传文件的文件夹不存在，则创建文件夹
+                    File f = new File(fileSavingFolder + File.separator);
+                    if (!f.exists()) {
+                        f.mkdirs();
+                    }
+
+                    File image = new File(fileSavingPath);
+                    multipartFile.transferTo(image);
+
+                    //将上传的文件内容写入服务器文件中
+                    picture.append(saveFileName).append(";");
+
+                    num++;
                 }
-                //获取HTTP头信息headerInfo=（form-data; name="file" filename="文件名"）
-                String headerInfo = part.getHeader("content-disposition");
-                //从HTTP头信息中获取文件名fileName=（文件名）
-                String fileName = headerInfo.substring(headerInfo.lastIndexOf("=") + 2, headerInfo.length() - 1);
-                int index = fileName.indexOf('.');
-                String fileType = fileName.substring(index + 1);
-                String saveFileName = shopId + "_" + planId + "_" + num + "." + fileType;
-                //获得存储上传文件的文件夹路径
-                String fileSavingFolder = request.getSession().getServletContext().getRealPath("") + File.separator + "check_result_images";
-                //获得存储上传文件的完整路径（文件夹路径+文件名）
-                //文件夹位置固定，文件夹采用与上传文件的原始名字相同
-                String fileSavingPath = fileSavingFolder + File.separator + saveFileName;
-                //如果存储上传文件的文件夹不存在，则创建文件夹
-                File f = new File(fileSavingFolder + File.separator);
-                if (!f.exists()) {
-                    f.mkdirs();
-                }
-                //将上传的文件内容写入服务器文件中
-                part.write(fileSavingPath);
-                picture.append(saveFileName).append(";");
-                num++;
             }
         } catch (Exception e) {
             e.printStackTrace();
