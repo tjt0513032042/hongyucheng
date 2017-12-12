@@ -1,5 +1,6 @@
 package com.hongyuecheng.user.controller;
 
+import com.hongyuecheng.common.Constants;
 import com.hongyuecheng.shop.service.ShopInfoService;
 import com.hongyuecheng.user.entity.User;
 import com.hongyuecheng.user.service.UserService;
@@ -86,6 +87,9 @@ public class UserController {
         }
 
         int excuteResult = 0;
+        if (user.getRole().intValue() != Constants.USER_TYPE_SHOP_MANAGER.intValue()) {
+            user.setShopId(null);
+        }
         if (user.getId() == null) {// 修改
             excuteResult = userService.addUser(user);
         } else {// 新增

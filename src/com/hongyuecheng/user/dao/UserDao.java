@@ -76,9 +76,7 @@ public class UserDao {
         if (StringUtils.isNotEmpty(user.getPhone())) {
             sql += " phone = '" + user.getPhone() + "', ";
         }
-        if (null != user.getShopId()) {
-            sql += " shop_id = " + user.getShopId() + ", ";
-        }
+        sql += " shop_id = " + user.getShopId() + ", ";
         if (StringUtils.isNotEmpty(user.getPassword())) {
             sql += " password = '" + user.getPassword() + "', ";
         }
@@ -97,7 +95,7 @@ public class UserDao {
     }
 
     public User getUserByName(String name) {
-        String sql = "select * from user_info where name = '" + name + "'";
+        String sql = "select * from user_info where name = '" + name + "' and active = 'Y'";
         List<User> list = jdbcTemplate.query(sql, User.getDefaultRowHander());
         if (org.apache.commons.collections.CollectionUtils.isNotEmpty(list)) {
             return list.get(0);
