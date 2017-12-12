@@ -55,7 +55,9 @@ function searchList(name, phone, pageNo, pageSize) {
                     }
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
-                    htmlContent.push('<a href="#" class="tablelink modify">修改</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink delete">删除</a>');
+                    if(canOperate() || data.role != 0){
+                        htmlContent.push('<a href="#" class="tablelink modify">修改</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink delete">删除</a>');
+                    }
                     htmlContent.push('</td>');
                     htmlContent.push('</tr>')
                 });
@@ -207,7 +209,7 @@ function getUserInfoHtml(userInfo) {
             '<li><label><span style="display: inline;color: red;">*</span>用户名称</label><input name="name" type="text" class="dfinput" value="' + userInfo.name + '" maxlength="10"></li>',
             '<li><label>用户角色</label>',
             '<select name="role" class="dfinput">',
-            '<option value="0" ' + (userInfo.role == 0 ? 'selected' : '') + '>管理员</option>',
+            canOperate() ? '<option value="0" ' + (userInfo.role == 0 ? 'selected' : '') + '>管理员</option>' : '',
             '<option value="1" ' + (userInfo.role == 1 ? 'selected' : '') + '>店长</option>',
             '<option value="2" ' + (userInfo.role == 2 ? 'selected' : '') + '>工作人员</option>',
             '</select></li>',
@@ -227,7 +229,7 @@ function getUserInfoHtml(userInfo) {
             '<li><label><span style="display: inline;color: red;">*</span>用户名称</label><input name="name" type="text" class="dfinput" maxlength="10"></li>',
             '<li><label>用户角色</label>',
             '<select name="role" class="dfinput">',
-            '<option value="0">管理员</option>',
+            canOperate() ? '<option value="0">管理员</option>' : '',
             '<option value="1">店长</option>',
             '<option value="2">工作人员</option>',
             '</select></li>',

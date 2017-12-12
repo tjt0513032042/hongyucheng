@@ -31,7 +31,7 @@ public class UserDao {
     }
 
     public User getUserByNameAndPassword(String name, String password) {
-        String sql = "select * from user_info where name = ? and password = ? and active = 'Y'";
+        String sql = "select * from user_info where name = ? and password = ? and active != 'N'";
         List<User> list = jdbcTemplate.query(sql, new Object[]{name, password}, User.getDefaultRowHander());
         if (!CollectionUtils.isEmpty(list)) {
             return list.get(0);
