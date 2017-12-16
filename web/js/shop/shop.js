@@ -66,6 +66,7 @@ function searchList(name, pageNo, pageSize) {
                     htmlContent.push('</td>');
                     htmlContent.push('<td>');
                     if (data.hasSpareKey) {
+
                         htmlContent.push("是");
                     } else {
                         htmlContent.push("否");
@@ -80,7 +81,7 @@ function searchList(name, pageNo, pageSize) {
                     htmlContent.push('</tr>')
                 });
             } else {
-                htmlContent.push('<tr class="contentDatas"><td colspan="5">暂无数据</td></tr>');
+                htmlContent.push('<tr class="contentDatas"><td colspan="10">暂无数据</td></tr>');
             }
             $('#userInfoList').append(htmlContent.join(''));
             $('.tablelist tbody tr:odd').addClass('odd');

@@ -39,6 +39,10 @@ $(document).ready(function () {
 });
 
 function searchList(param, pageNo, pageSize) {
+    if(!param.shopId || param.shopId == null || param.shopId == ''){
+        layer.msg('请选择一个商家进行查询!');
+        return;
+    }
     var url = getRoot() + '/summary/queryMonthList.do';
     var params = $.extend(param, {
         pageNo: pageNo,

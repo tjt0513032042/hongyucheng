@@ -106,6 +106,9 @@ function initDatePicker(dateinput, opt) {
             dateFormat: 'yy-mm-dd',//日期格式
             clearText: "清除",//清除日期的按钮名称
             closeText: "关闭",//关闭选择框的按钮名称
+            prevText: '<上月',
+            nextText: '下月>',
+            currentText: '今天',
             showMonthAfterYear: true,//是否把月放在年的后面
             yearSuffix: '年', //年的后缀
             monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],

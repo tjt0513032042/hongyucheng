@@ -10,6 +10,7 @@ import com.hongyuecheng.report.entity.CheckRecordDetail;
 import com.hongyuecheng.report.entity.CheckRecords;
 import com.hongyuecheng.report.service.CheckRecordDetailService;
 import com.hongyuecheng.report.service.CheckRecordsService;
+import com.hongyuecheng.shop.entity.ShopInfo;
 import com.hongyuecheng.shop.service.ShopInfoService;
 import com.hongyuecheng.user.entity.User;
 import com.hongyuecheng.user.service.UserService;
@@ -70,7 +71,16 @@ public class MobileController {
             request.setAttribute("checkType", checkType);
             if (-1 == checkType) {
                 //抽查页面
-                return "mobile/checkResult";
+                // 检查是否有抽查计划
+                CheckPlan plan = checkPlanService.getPlanByDate(DateUtil.parse(DateUtil.format(new Date(), DateUtil.FORMAT_TYPE_1), DateUtil.FORMAT_TYPE_1));
+                if (null != plan) {
+                    List<ShopInfo> shopInfos = shopInfoService.getShopInfos(plan.getShopIds());
+                    if(org.apache.commons.collections.CollectionUtils.isNotEmpty(shopInfos)){
+                        return "mobile/checkResult";
+                    }
+                }
+                request.setAttribute("msg", "今日无抽查计划,请先添加抽查计划再填写抽查结果!");
+                return "mobile/list";
             } else {
                 String checkDate = DateUtil.format(new Date(), DateUtil.FORMAT_TYPE_1);
                 Integer shopId = user.getShopId();

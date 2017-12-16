@@ -42,9 +42,7 @@
 
 <div data-role="page" id="pageone">
     <div data-role="header">
-        <h1 id="title">${checkRecords.shopInfo.shopName}-<c:if test="${checkRecords.recordType == 0}">开店表</c:if>
-            <c:if test="${checkRecords.recordType == 1}">闭店表</c:if>
-        </h1>
+        <h1 id="title">${checkRecords.shopInfo.shopName}</h1>
     </div>
     <input type="hidden" name="recordId" value="${checkRecords.recordId }">
     <input type="hidden" name="checkType" value="${checkRecords.recordType }">
@@ -54,6 +52,9 @@
         <input name="id" type="hidden" value="${user.id}"/>
     </form>
     <ul style="display: inline;">
+        <li>
+            <label>类型&nbsp;&nbsp;:<c:if test="${checkRecords.recordType == 0}">开店表</c:if><c:if test="${checkRecords.recordType == 1}">闭店表</c:if></label>
+        </li>
         <li>
             <label>当前时间: ${checkRecords.checkDateStr}</label>
         </li>

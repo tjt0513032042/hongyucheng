@@ -51,6 +51,8 @@ public class CheckRecordsDao {
             if (StringUtils.isNotEmpty(shopIds)) {
                 sql += " and shop_id in (" + shopIds + ") ";
             }
+        } else if (StringUtils.isNotEmpty(shopName)){
+            sql += " and 1=2 ";
         }
         sql += " order by shop_id, check_date desc ";
         Long total = DaoUtils.getTotalNumber(sql, params.toArray(), jdbcTemplate);

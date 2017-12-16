@@ -15,16 +15,26 @@
     if (null != obj) {
         user = (User) obj;
     }
+    Object message = request.getAttribute("msg");
+    String msg = "";
+    if (null != message) {
+        msg = (String) message;
+    }
 %>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
-
 <link rel="stylesheet" href="<%=basePath%>/js/jquery-mobile/jquery.mobile-1.4.5.min.css">
 <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/mobile/utils.js"></script>
-
+<script>
+    var msg = '<%=msg%>';
+    if(msg && msg != ''){
+        layer.msg(msg);
+    }
+</script>
 </head>
 <body>
 <div><img src="<%=basePath%>/images/mobile/logo.jpg" width="100%"></div>
