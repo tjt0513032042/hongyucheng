@@ -47,5 +47,16 @@
       <li><a href="<%=basePath%>/mobile/detail.do?checkType=-1" target="_top"><img src="<%=basePath%>/images/mobile/admin.jpg" class="ui-li-icon">管理抽查</a></li>
       </c:if>
     </ul>
+    
+    <c:if test="${user.role == 1}">
+	  <p style="margin-left:20px;margin-bottom :20px">
+    	<font color="red">温馨提示：<br>
+    	请按照规范检查填写结果，填写时间范围：<br>
+    	开店填写时间：9：00-11：00<br>
+    	闭店填写时间：22：00-23：00<br>
+    	</font>
+ 	 </p>
+    </c:if>
 </body>
 </html>
+

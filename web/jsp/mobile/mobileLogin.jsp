@@ -19,10 +19,8 @@
 </head>
 
 <script language="javascript">
-    
-    $(document).ready(function () {
-    $('input.loginbtn').on('click', function () {
-        if($('#userName').val() == '' || $('#password').val() == ''){
+    function login(){
+            if($('#userName').val() == '' || $('#password').val() == ''){
             layer.msg("用户名和密码不能为空!");
             return;
         }
@@ -39,12 +37,11 @@
                 layer.msg(callback.msg);
             }
         });
-    });
-
-    $('#btn_reset').on('click', function () {
-        $('form').find('input').val('');
-    });
-});
+    }
+    
+    function reset(){
+     $('form').find('input').val('');
+    }
 
 </script>
 <head>
@@ -72,8 +69,8 @@
 
                 <input type="password" name="password" id="password">
                 <div style="margin-top: 20%;">
-                	<input type="button" class = "loginbtn" value="登录"/>
-                	<input type="button" id="btn_reset" value="重置"/>
+                	<input type="button" class = "loginbtn" value="登录" onclick="login()"/>
+                	<input type="button" id="btn_reset" value="重置" onclick="reset()"/>
                 </div>
             </div>
 
@@ -81,7 +78,7 @@
     </div>
 
     <div data-role="footer" style="text-align: center"  data-position="fixed">
-        <p>© 2017 WONDER CITY. All Rights Reserved.</p>
+        <p>虹悦城开闭店检查系统</p>
     </div>
     <form id="mainForm" action="" method="get">
     </form>

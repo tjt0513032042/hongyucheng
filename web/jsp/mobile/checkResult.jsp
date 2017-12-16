@@ -204,7 +204,7 @@ var tr = $(tar).parent().parent();
 						<tr name = "cloneTr">
 							<td width="90%"><input name="imageNames" type="file"/></td>
 							<td><a href="javascript:void(0);" name="del" style="display:none"  onclick="delCloneTr(this)"><img src="<%=basePath%>/images/authority/3_del.png"/></a>
-							<a href="javascript:void(0);" name="add"  onclick="addCloneTr(this)"><img src="<%=basePath%>/images/authority/add.jpg"/></a>
+							<a href="javascript:void(0);" name="add"  onclick="addCloneTr(this)"><img src="<%=basePath%>/images/sp_image/upload.png" style="width:40px"/></a>
 							</td>
 					 	</tr>
 					</table>
@@ -220,7 +220,7 @@ var tr = $(tar).parent().parent();
 
 		<div data-role="footer" style="text-align: center"
 			data-position="fixed">
-			<p>© 2017 WONDER CITY. All Rights Reserved.</p>
+			<p>虹悦城开闭店检查系统</p>
 		</div>
 	</div>
 </body>
