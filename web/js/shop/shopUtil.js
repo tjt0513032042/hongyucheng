@@ -49,7 +49,7 @@ function chooseShop(input) {
         btn1: function (index, dom) {
             var inputs = $(dom).find('input.itemcheck:checked');
             if (inputs.length > 1) {
-                layer.msg('每次只能选择一个商家添加到抽查计划中!');
+                layer.msg('每次只能选择一个商家!');
                 return;
             }
             $(input).attr('shopId', $(inputs[0]).attr('shopId'));

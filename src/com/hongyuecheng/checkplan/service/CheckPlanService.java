@@ -29,6 +29,17 @@ public class CheckPlanService {
 
     public void queryPlans(String shopName, Date start, Date end, Page page) {
         checkPlanDao.queryPlans(shopName, start, end, page);
+        List<CheckPlan> list = page.getResult();
+        if (CollectionUtils.isNotEmpty(list)) {
+            Date current = DateUtil.parse(DateUtil.format(new Date(), DateUtil.FORMAT_TYPE_1), DateUtil.FORMAT_TYPE_1);
+            for (CheckPlan plan : list) {
+                if (current.getTime() > plan.getCheckDate().getTime()) {
+                    plan.setModifyble(false);
+                } else {
+                    plan.setModifyble(true);
+                }
+            }
+        }
     }
 
     public List<CheckPlan> createPlans(Date start, Date end) {

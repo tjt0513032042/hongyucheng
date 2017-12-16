@@ -77,6 +77,9 @@
                             <c:if test="${details.optionResult == 0}">
                                 checked
                             </c:if>
+                            <c:if test="${!submitFlag}">
+                                onclick="return false;"
+                            </c:if>
                     />
                 </td>
             </tr>

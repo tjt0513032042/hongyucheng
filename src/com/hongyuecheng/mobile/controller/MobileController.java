@@ -123,7 +123,7 @@ public class MobileController {
                     }
                 }
                 ret.setCheckDate(new Date());
-                ret.setCheckDateStr(DateUtil.format(ret.getCheckDate()));
+                ret.setCheckDateStr(DateUtil.format(ret.getCheckDate(), DateUtil.FORMAT_TYPE_1));
                 request.setAttribute("checkRecords", ret);
                 request.setAttribute("submitFlag", checkSubmit(checkType));
                 return "mobile/checkDetail";

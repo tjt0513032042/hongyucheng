@@ -136,7 +136,7 @@ function getCheckStatus(data) {
         if (data.checkResult.status == 1) {
             desc = '合格';
         } else if (data.checkResult.status == 0) {
-            desc = '不合格';
+            desc = '<span style="color: red;">不合格</span>';
         }
     }
     return desc;
@@ -158,9 +158,9 @@ function getStatus(data, type) {
     var desc = '-';
     if (null != record) {
         if (type == 0) {
-            desc = data.openFlag ? '合格' : '不合格';
+            desc = data.openFlag ? '合格' : '<span style="color: red;">不合格</span>';
         } else {
-            desc = data.closeFlag ? '合格' : '不合格';
+            desc = data.closeFlag ? '合格' : '<span style="color: red;">不合格</span>';
         }
     }
     return desc;

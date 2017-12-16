@@ -13,9 +13,11 @@ $(document).ready(function () {
             if(callback.flag){
                 var userInfo = callback.data;
                 var url = getRoot() + '/login/main.do';
-                // $('#mainForm').attr('action', url);
-                // $('#mainForm').submit();
-                window.location.href = url;
+                if(window != top){
+                    top.location.href = url;
+                } else {
+                    window.location.href = url;
+                }
             }else{
                 layer.msg(callback.msg);
             }

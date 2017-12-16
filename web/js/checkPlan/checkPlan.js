@@ -37,7 +37,7 @@ function searchList(param, pageNo, pageSize) {
             if (datas && datas.length > 0) {
                 htmlContent = createPlanListHtml(datas);
             } else {
-                htmlContent.push('<tr class="contentDatas"><td colspan="5">暂无数据</td></tr>');
+                htmlContent.push('<tr class="contentDatas"><td colspan="3">暂无数据</td></tr>');
             }
             $('#userInfoList').append(htmlContent.join(''));
             $('.tablelist tbody tr:odd').addClass('odd');
@@ -131,7 +131,7 @@ function toSave() {
         content: getInfoHtml(),
         success: function (dom) {
             // 设置jquery验证器
-            initDatePicker($(dom).find('input.datepick'));
+            initDatePicker($(dom).find('input.datepick'), {minDate:  new  Date()});
             $(dom).find('li[name=createplan]').on('click', function () {
                 createPlan(dom);
             });
@@ -342,7 +342,10 @@ function createPlanListHtml(datas) {
             htmlContent.push(getShopNames(data));
             htmlContent.push('</td>');
             htmlContent.push('<td>');
-            htmlContent.push('<a href="#" class="tablelink modify">修改</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink delete">删除</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink viewresult">查看结果</a>');
+            if (data.modifyble) {
+                htmlContent.push('<a href="#" class="tablelink modify">修改</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tablelink delete">删除</a>&nbsp;&nbsp;&nbsp;');
+            }
+            htmlContent.push('<a href="#" class="tablelink viewresult">查看结果</a>');
             htmlContent.push('</td>');
             htmlContent.push('</tr>')
         });

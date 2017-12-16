@@ -19,6 +19,7 @@ public class CheckPlan implements Serializable {
     private String shopIds;
 
     private List<ShopInfo> shopList;
+    private boolean modifyble;
 
     public Integer getPlanId() {
         return planId;
@@ -50,6 +51,14 @@ public class CheckPlan implements Serializable {
 
     public void setShopList(List<ShopInfo> shopList) {
         this.shopList = shopList;
+    }
+
+    public boolean isModifyble() {
+        return modifyble;
+    }
+
+    public void setModifyble(boolean modifyble) {
+        this.modifyble = modifyble;
     }
 
     public static RowMapper<CheckPlan> getDefaultRowHander() {
