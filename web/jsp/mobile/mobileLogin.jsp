@@ -14,8 +14,8 @@
 
 <link rel="stylesheet" href="<%=basePath%>/js/jquery-mobile/jquery.mobile-1.4.5.min.css" />
 <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>/js/mobile/utils.js"></script>
-
+<script type="text/javascript" src="<%=basePath%>/js/mobile/utils.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/user/user.js"></script>
 </head>
 
 <script language="javascript">
@@ -29,18 +29,20 @@
         data.type = 'mobile';
         sendAjax(url, data, function (callback) {
             if(callback.flag){
-                var userInfo = callback.data;
                 var url = getRoot() + '/mobile/mobileMain.do';
-                $('#mainForm').attr('action', url);
-                $('#mainForm').submit();
+                window.location.href = url;
             }else{
                 layer.msg(callback.msg);
             }
         });
     }
-    
+
     function reset(){
      $('form').find('input').val('');
+    }
+
+    function registe(){
+
     }
 
 </script>
@@ -80,8 +82,6 @@
     <div data-role="footer" style="text-align: center"  data-position="fixed">
         <p>虹悦城开闭店检查系统</p>
     </div>
-    <form id="mainForm" action="" method="get">
-    </form>
 </div>
 </body>
 </html>

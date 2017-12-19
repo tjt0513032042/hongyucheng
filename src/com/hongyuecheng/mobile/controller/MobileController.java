@@ -58,8 +58,37 @@ public class MobileController {
     private UserService userService;
 
     @RequestMapping("/list")
-    public String list() {
+    public String list(HttpServletRequest request) {
+        request.setAttribute("msg", "");
         return "mobile/list";
+    }
+
+    @RequestMapping("/resetPwd")
+    public String resetPwd() {
+        return "mobile/resetPwd";
+    }
+
+    @RequestMapping("/saveUserInfo")
+    @ResponseBody
+    public ReturnValue saveUserInfo(String oldPassword, String newPassword, HttpSession session) {
+        ReturnValue returnValue = new ReturnValue();
+        try {
+            User user = (User) session.getAttribute("user");
+            if (!StringUtils.equals(user.getPassword(), oldPassword)) {
+                returnValue.setFlag(false);
+                returnValue.setMsg("旧密码输入错误!");
+            } else {
+                user.setPassword(newPassword);
+                userService.updateUser(user);
+                returnValue.setFlag(true);
+            }
+
+        } catch (Exception e) {
+            returnValue.setFlag(false);
+            returnValue.setMsg("系统错误!");
+        }
+
+        return returnValue;
     }
 
     @RequestMapping("/detail")
@@ -75,7 +104,7 @@ public class MobileController {
                 CheckPlan plan = checkPlanService.getPlanByDate(DateUtil.parse(DateUtil.format(new Date(), DateUtil.FORMAT_TYPE_1), DateUtil.FORMAT_TYPE_1));
                 if (null != plan) {
                     List<ShopInfo> shopInfos = shopInfoService.getShopInfos(plan.getShopIds());
-                    if(org.apache.commons.collections.CollectionUtils.isNotEmpty(shopInfos)){
+                    if (org.apache.commons.collections.CollectionUtils.isNotEmpty(shopInfos)) {
                         return "mobile/checkResult";
                     }
                 }
@@ -153,6 +182,17 @@ public class MobileController {
         }
         Date startDate = DateUtil.parse(start);
         Date endDate = DateUtil.parse(end);
+        // 结束时间必须大于开始时间
+        if (endDate.getTime() <= startDate.getTime()) {
+            // 如果还没过中午12点，则endDate加一天
+            if (current.getTime() >= startDate.getTime() && current.getTime() >= endDate.getTime()) {
+                // 结束时间按加一天处理
+                endDate = DateUtil.addDays(endDate, 1);
+            } else if (current.getTime() <= startDate.getTime() && current.getTime() <= endDate.getTime()) {
+                // 开始时间减一天处理
+                startDate = DateUtil.addDays(startDate, -1);
+            }
+        }
         if (current.getTime() >= startDate.getTime() && current.getTime() <= endDate.getTime()) {
             flag = true;
         }
@@ -160,7 +200,8 @@ public class MobileController {
     }
 
     @RequestMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
         return "mobile/mobileLogin";
     }
 
@@ -221,7 +262,7 @@ public class MobileController {
     @ResponseBody
     public String saveCheckRecordDetail(Integer shopId, Integer checkType, Integer recordId, String optionCode, Integer optionResult, HttpSession session) {
         try {
-            String checkDate = DateUtil.format(new Date(), DateUtil.FORMAT_TYPE_1);
+            String checkDate = getCheckDate(checkType);
             CheckRecords ret = checkRecordsService.getCheckRecords(checkDate, shopId, checkType);
             if (null == ret) {
                 ret = new CheckRecords();
@@ -240,6 +281,8 @@ public class MobileController {
                 checkRecordDetailService.addCheckRecordDetail(detail);
             } else {
                 List<CheckRecordDetail> detailList = ret.getDetails();
+
+
                 recordId = ret.getRecordId();
                 boolean hasRecord = false;
                 //如果已经存在该参数的记录，则更新
@@ -387,42 +430,6 @@ public class MobileController {
         PrintWriter out = response.getWriter();
         out.println(info);
     }
- /*   
-    @RequestMapping("/downloadImage")
-    @ResponseBody
-    public void downloadImage(HttpServletRequest request,HttpServletResponse response,String path) throws Exception {
-    	path = "111.png";
-
-    	String[] pathArr = path.split("#");
-    	if(null == pathArr || pathArr.length != 2){
-    		return;
-    	}
-    	
-    	String contentType = pathArr[0];
-    	response.setContentType(contentType);
-    	
-    	String fileSavingFolder = request.getServletContext().getRealPath("") +  "check_result_images";
-    	String fullPathName = fileSavingFolder + File.separator + pathArr[1];
-
-		FileInputStream fis = new FileInputStream(fullPathName);
-		OutputStream os = response.getOutputStream();
-
-		try {
-			int count = 0;
-			byte[] buffer = new byte[1024 * 1024];
-			while ((count = fis.read(buffer)) != -1)
-				os.write(buffer, 0, count);
-			os.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (os != null)
-				os.close();
-			if (fis != null)
-				fis.close();
-		}
-	
-	}*/
 
     /**
      * 查询指定商家的抽查结果
@@ -488,57 +495,28 @@ public class MobileController {
         return true;
     }
 
-  /*  @RequestMapping(value = "/downloadFile", method = RequestMethod.POST)
-    @ResponseBody
-    public void downloadFile(Integer shopId, Integer planId, HttpServletResponse response) {
-        try {
-            //服务器绝对路径
-            String fullFilePath = "";
-            System.out.println(fullFilePath);
-              打开文件，创建File类型的文件对象
-            File file = new File(fullFilePath);
-              如果文件存在
-            if (file.exists()) {
-                System.out.println("文件存在");
-                  获得文件名，并采用UTF-8编码方式进行编码，以解决中文问题
-                String filename = URLEncoder.encode(file.getName(), "UTF-8");
-                System.out.println(filename);
-                  重置response对象
-                response.reset();
-                //设置文件的类型，xml文件采用text/xml类型，详见MIME类型的说明
-                response.setContentType("text/xml");
-                //设置HTTP头信息中内容
-                response.addHeader("Content-Disposition", "attachment:filename=\"" + filename + "\"");
-                //设置文件的长度
-                int fileLength = (int) file.length();
-                System.out.println(fileLength);
-                response.setContentLength(fileLength);
-                  如果文件长度大于0
-                if (fileLength != 0) {
-                    //创建输入流
-                    InputStream inStream = new FileInputStream(file);
-                    byte[] buf = new byte[4096];
-                    //创建输出流
-                    ServletOutputStream servletOS = response.getOutputStream();
-                    int readLength;
-                    //读取文件内容并写到response的输出流当中
-                    while (((readLength = inStream.read(buf)) != -1)) {
-                        servletOS.write(buf, 0, readLength);
-                    }
-                    //关闭输入流
-                    inStream.close();
-                    //刷新输出缓冲
-                    servletOS.flush();
-                    //关闭输出流
-                    servletOS.close();
+    private String getCheckDate(int checkType) {
+        Date current = new Date();
+        String result = DateUtil.format(current, DateUtil.FORMAT_TYPE_1);
+        if (checkType == Constants.CHECK_RECORD_TYPE_CLOSE) {
+            String start = DateUtil.format(current, DateUtil.FORMAT_TYPE_1) + " " + PropertiesMapper.getValue("closecheck_start");
+            String end = DateUtil.format(current, DateUtil.FORMAT_TYPE_1) + " " + PropertiesMapper.getValue("closecheck_end");
+            Date startDate = DateUtil.parse(start);
+            Date endDate = DateUtil.parse(end);
+            // 结束时间必须大于开始时间
+            if (endDate.getTime() <= startDate.getTime()) {
+                // 如果还没过中午12点，则endDate加一天
+                if (current.getTime() >= startDate.getTime() && current.getTime() >= endDate.getTime()) {
+                    // 结束时间按加一天处理
+                    endDate = DateUtil.addDays(endDate, 1);
+                } else if (current.getTime() <= startDate.getTime() && current.getTime() <= endDate.getTime()) {
+                    // 开始时间减一天处理
+                    startDate = DateUtil.addDays(startDate, -1);
                 }
-            } else {
-                System.out.println("文件不存在~！");
-                PrintWriter out = response.getWriter();
-                out.println("文件 \"" + fullFilePath + "\" 不存在");
+                // 获取开始时间的年月日
+                result = DateUtil.format(startDate, DateUtil.FORMAT_TYPE_1);
             }
-        } catch (Exception e) {
-            System.out.println(e);
         }
-    }*/
+        return result;
+    }
 }

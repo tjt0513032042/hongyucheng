@@ -34,9 +34,20 @@
     if(msg && msg != ''){
         layer.msg(msg);
     }
+
+    function resetPwd(){
+        var url = getRoot() + '/mobile/resetPwd.do';
+//        $('#mainForm').attr('action', url);
+//        $('#mainForm').submit();
+        window.location.href = url;
+    }
 </script>
 </head>
 <body>
+  <div data-role="header">
+    <h1></h1>
+    <a href="#" class="ui-btn ui-btn-right ui-icon-gear ui-btn-icon-right" id="resetPwd" onclick="resetPwd()">重置密码</a>
+  </div>
 <div><img src="<%=basePath%>/images/mobile/logo.jpg" width="100%"></div>
     <ul data-role="listview" data-inset="true">
       <c:if test="${user.role == 1}">
@@ -53,10 +64,12 @@
     	<font color="red">温馨提示：<br>
     	请按照规范检查填写结果，填写时间范围：<br>
     	开店填写时间：9：00-11：00<br>
-    	闭店填写时间：22：00-23：00<br>
+    	闭店填写时间：22：00-02：00<br>
     	</font>
  	 </p>
     </c:if>
+    <form id="mainForm" action="" method="get">
+    </form>    
 </body>
 </html>
 

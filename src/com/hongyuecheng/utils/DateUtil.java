@@ -39,6 +39,16 @@ public class DateUtil {
         return parse(date, null);
     }
 
+    public static Date addHours(Date date, int num) {
+        if (null == date) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, num);
+        return calendar.getTime();
+    }
+
     public static Date addDays(Date date, int num) {
         if (null == date) {
             return null;
